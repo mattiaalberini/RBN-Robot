@@ -1,0 +1,122 @@
+import random
+
+generatore_semplice = False
+
+
+def read_file(file_name):
+    parameters_app = {}
+
+    with open(file_name, "r", encoding="utf-8") as file:
+        for line in file:
+            if ":" in line:
+                parameters_app[line.split(":")[0].strip()] = line.split(":")[1].strip()
+
+    return parameters_app
+
+
+def check_parameters(n_nodi, k_minimo, k_massimo, probabilita_k, bias_per_ogni_k):
+    if n_nodi < 0:
+        raise ValueError("Numero nodi negativo")
+
+    if (k_massimo - k_minimo + 1) != len(probabilita_k):
+        raise ValueError("Numero probabilita_k diverso dal numero di valori possibili di k")
+
+    if (k_massimo - k_minimo + 1) != len(bias_per_ogni_k):
+        raise ValueError("Numero bias_per_ogni_k diverso dal numero di valori possibili di k")
+
+    if sum(probabilita_k) != 1:
+        raise ValueError("Somma probabilita_k diversa da 1")
+
+    if any(b < 0 or b > 1 for b in bias_per_ogni_k):
+        raise ValueError("Valore bias_per_ogni_k non compreso tra 0 e 1")
+
+
+def generate_graph(n_nodi, k_minimo, k_massimo, probabilita_k, bias_per_ogni_k, seme):
+    if seme != 0:
+        random.seed(seme)
+
+    graph = {}
+
+    for n in range(n_nodi):
+        # Numero ingressi per nodo
+        n_ingressi = random.choices(list(range(k_minimo, k_massimo + 1)), probabilita_k)[0]
+
+        ingressi = []
+        for i in range(n_ingressi):
+            # Generazione ingressi evitando duplicati
+            ingresso = random.choice([x for x in range(n_nodi) if x not in ingressi])
+            ingressi.append(ingresso)
+
+        #file.write(f"lista_ingressi({n_ingressi}): {ingressi}\n")
+
+        # Numero uscite per nodo
+        n_uscite = pow(2, n_ingressi)
+
+        # Bias a seconda del numero di ingressi (k)
+        bias = bias_per_ogni_k[n_ingressi - k_minimo]
+
+        probabilita_uscita = [1 - bias, bias]
+
+        uscite = []
+        for u in range(n_uscite):
+            uscita = random.choices(list(range(2)), probabilita_uscita)[0]
+            uscite.append(uscita)
+
+        nodo = {"ingressi": ingressi, "uscite": uscite}
+        graph[n] = nodo
+
+    return graph
+
+
+def print_grafo(n_nodi, graph):
+    with open("grafo_default.txt", "w") as file:
+        file.write(f"n_genes: {n_nodi}\n")
+
+        for n in range(n_nodi):
+            file.write(f"gene: {n}\n")
+
+            # Ingressi
+            file.write(f"lista ingressi ({len(graph[n]["ingressi"])}):")
+            for i in graph[n]["ingressi"]:
+                file.write(f" {i}")
+            file.write("\n")
+
+            # Uscite
+            file.write(f"uscite ({len(graph[n]["uscite"])}):")
+            for u in graph[n]["uscite"]:
+                file.write(f" {u}")
+            file.write("\n")
+
+
+if __name__ == "__main__":
+    # Lettura input
+    if generatore_semplice:
+        input_file = "input_generatore_SEMPLICE.txt"
+    else:
+        input_file = "input_generatore_PIUCOMPLICATO.txt"
+
+    parameters = read_file(input_file)
+
+    # Conversione parametri
+    n_nodi = int(parameters["n_nodi"])
+    seme = int(parameters["seme"])
+
+    if generatore_semplice:
+        k_minimo = int(parameters["k"])
+        k_massimo = int(parameters["k"])
+        probabilita_k = [1]
+        bias_per_ogni_k = [float(parameters["bias"])]
+    else:
+        k_minimo = int(parameters["k_minimo"])
+        k_massimo = int(parameters["k_massimo"])
+        probabilita_k = list(map(float, parameters["probabilità_k"].split()))
+        bias_per_ogni_k = list(map(float, parameters["bias_per_ogni_k"].split()))
+
+    # Controllo parametri
+    check_parameters(n_nodi, k_minimo, k_massimo, probabilita_k, bias_per_ogni_k)
+
+    # Generazione grafo
+    graph = generate_graph(n_nodi, k_minimo, k_massimo, probabilita_k, bias_per_ogni_k, seme)
+
+    # Scrivo grafo su file
+    print_grafo(n_nodi, graph)
