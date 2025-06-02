@@ -1,0 +1,4 @@
+n_genes: 20
+n_cond: 1000
+bias: 0.5
+seme: 0
