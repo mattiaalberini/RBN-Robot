@@ -1,13 +1,16 @@
 import random
-
-from utils import read_file, generate_random_boolean_output
+from utils import read_file, generate_random_boolean_values
 
 generatore_semplice = False
 
 
+# Controllore ammissibilità parametri
 def check_parameters(n_nodi, k_minimo, k_massimo, probabilita_k, bias_per_ogni_k):
     if n_nodi < 0:
         raise ValueError("Numero nodi negativo")
+
+    if n_nodi - k_massimo < 1:
+        raise ValueError("Numero k input elevato rispetto al numero nodi")
 
     if (k_massimo - k_minimo + 1) != len(probabilita_k):
         raise ValueError("Numero probabilita_k diverso dal numero di valori possibili di k")
@@ -22,10 +25,8 @@ def check_parameters(n_nodi, k_minimo, k_massimo, probabilita_k, bias_per_ogni_k
         raise ValueError("Valore bias_per_ogni_k non compreso tra 0 e 1")
 
 
-def generate_graph(n_nodi, k_minimo, k_massimo, probabilita_k, bias_per_ogni_k, seme):
-    if seme != 0:
-        random.seed(seme)
-
+# Generatore RBN
+def generate_graph(n_nodi, k_minimo, k_massimo, probabilita_k, bias_per_ogni_k):
     graph = {}
 
     for n in range(n_nodi):
@@ -35,10 +36,8 @@ def generate_graph(n_nodi, k_minimo, k_massimo, probabilita_k, bias_per_ogni_k, 
         ingressi = []
         for i in range(n_ingressi):
             # Generazione ingressi evitando duplicati
-            ingresso = random.choice([x for x in range(n_nodi) if x not in ingressi])
+            ingresso = random.choice([x for x in range(n_nodi) if x not in ingressi and x != n])
             ingressi.append(ingresso)
-
-        #file.write(f"lista_ingressi({n_ingressi}): {ingressi}\n")
 
         # Numero uscite per nodo
         n_uscite = pow(2, n_ingressi)
@@ -46,7 +45,7 @@ def generate_graph(n_nodi, k_minimo, k_massimo, probabilita_k, bias_per_ogni_k, 
         # Bias a seconda del numero di ingressi (k)
         bias = bias_per_ogni_k[n_ingressi - k_minimo]
 
-        uscite = generate_random_boolean_output(n_uscite, bias)
+        uscite = generate_random_boolean_values(n_uscite, bias)
 
         nodo = {"ingressi": ingressi, "uscite": uscite}
         graph[n] = nodo
@@ -54,6 +53,7 @@ def generate_graph(n_nodi, k_minimo, k_massimo, probabilita_k, bias_per_ogni_k, 
     return graph
 
 
+# Scrittore RBN su file
 def print_grafo(n_nodi, graph):
     with open("grafo_default.txt", "w") as file:
         file.write(f"n_genes: {n_nodi}\n")
@@ -101,8 +101,12 @@ if __name__ == "__main__":
     # Controllo parametri
     check_parameters(n_nodi, k_minimo, k_massimo, probabilita_k, bias_per_ogni_k)
 
+    # Imposto il seed
+    if seme != 0:
+        random.seed(seme)
+
     # Generazione grafo
-    graph = generate_graph(n_nodi, k_minimo, k_massimo, probabilita_k, bias_per_ogni_k, seme)
+    graph = generate_graph(n_nodi, k_minimo, k_massimo, probabilita_k, bias_per_ogni_k)
 
     # Scrivo grafo su file
     print_grafo(n_nodi, graph)

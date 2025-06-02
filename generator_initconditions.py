@@ -1,19 +1,30 @@
 import random
+from utils import read_file, generate_random_boolean_values, print_states
 
-from utils import read_file, generate_random_boolean_output, print_states
+
+# Controllore ammissibilità parametri
+def check_parameters(n_genes, n_cond, bias):
+    if n_genes < 0:
+        raise ValueError("Numero geni negativo")
+
+    if n_cond < 0:
+        raise ValueError("Numero condizioni negativo")
+
+    if bias < 0 or bias > 1:
+        raise ValueError("Valore bias non compreso tra 0 e 1")
 
 
-def generate_initcondition(n_genes, n_cond, bias, seme):
-    if seme != 0:
-        random.seed(seme)
-
+# Generatore condizioni iniziali
+def generate_initconditions(n_genes, n_cond, bias):
     init_conditions = []
 
     for c in range(n_cond):
-        init_condition = generate_random_boolean_output(n_genes, bias)
+        # Genero una condizione iniziale
+        init_condition = generate_random_boolean_values(n_genes, bias)
         init_conditions.append(init_condition)
 
     return init_conditions
+
 
 if __name__ == "__main__":
 
@@ -27,6 +38,15 @@ if __name__ == "__main__":
     bias = float(parameters["bias"])
     seme = int(parameters["seme"])
 
-    initconditions = generate_initcondition(n_genes, n_cond, bias, seme)
+    # Controllo parametri
+    check_parameters(n_genes, n_cond, bias)
 
+    # Imposto il seed
+    if seme != 0:
+        random.seed(seme)
+
+    # Generazione condizioni iniziali
+    initconditions = generate_initconditions(n_genes, n_cond, bias)
+
+    # Scrittura condizioni iniziali su file
     print_states(n_genes, n_cond, initconditions, "cond_default.txt")
