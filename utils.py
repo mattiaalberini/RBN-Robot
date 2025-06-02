@@ -1,5 +1,6 @@
 import random
 
+
 # Lettore parametri da file
 def read_file(file_name):
     parameters_app = {}
