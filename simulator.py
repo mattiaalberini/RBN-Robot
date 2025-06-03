@@ -54,6 +54,7 @@ def simulate_steps(n_steps, graph, init_condition):
             ingressi = data_gene["ingressi"]
             uscite = data_gene["uscite"]
 
+            # Recupero i valori degli ingressi dallo stato procedente -> Ricavo l'output a partire dagli ingressi intesi come numero binario
             input_values = [state[i] for i in ingressi] # Valori degli ingressi presi dallo stato precedente
             str_index = ''.join(map(str, input_values)) # Indice binario come stringa per accedere all'output
             index = int(str_index, 2) # Indice binario come stringa trasformato in indice decimale intero intero
