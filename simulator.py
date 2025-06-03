@@ -43,27 +43,48 @@ def generate_initconditions(file_name):
     return n_cond, init_conditions
 
 
-# Motore RBN
-def simulate_steps(n_steps, graph, init_condition):
+def simulate_step(state, graph):
+    new_state = []
+
+    # Scorro tutti i nodi della rete
+    for n_gene, data_gene in graph.items():
+        ingressi = data_gene["ingressi"]
+        uscite = data_gene["uscite"]
+
+        # Recupero i valori degli ingressi dallo stato procedente -> Ricavo l'output a partire dagli ingressi intesi come numero binario -> Nuovo stato
+        input_values = [state[i] for i in ingressi]  # Valori degli ingressi presi dallo stato precedente
+        str_index = ''.join(map(str, input_values))  # Indice binario come stringa per accedere all'output
+        index = int(str_index, 2)  # Indice binario come stringa trasformato in indice decimale intero intero
+
+        new_state.append(uscite[index])
+
+    return new_state
+
+
+# Motore RBN mode 1
+def simulate_steps_mode1(n_steps, graph, init_condition):
     state = init_condition
 
     for s in range(n_steps):
-        new_state = []
-
-        # Scorro tutti i nodi della rete
-        for n_gene, data_gene in graph.items():
-            ingressi = data_gene["ingressi"]
-            uscite = data_gene["uscite"]
-
-            # Recupero i valori degli ingressi dallo stato procedente -> Ricavo l'output a partire dagli ingressi intesi come numero binario -> Nuovo stato
-            input_values = [state[i] for i in ingressi] # Valori degli ingressi presi dallo stato precedente
-            str_index = ''.join(map(str, input_values)) # Indice binario come stringa per accedere all'output
-            index = int(str_index, 2) # Indice binario come stringa trasformato in indice decimale intero intero
-            new_state.append(uscite[index])
-
+        new_state = simulate_step(state, graph)
         state = new_state
 
     return state
+
+
+# Motore RBN mode 2
+def simulate_steps_mode2(n_steps, graph, init_condition):
+    state = init_condition
+
+    # Lista degli stati passo per passo
+    states = []
+
+    for s in range(n_steps):
+        new_state = simulate_step(state, graph)
+        state = new_state
+        states.append(state)
+
+    return states
 
 
 if __name__ == "__main__":
@@ -73,6 +94,7 @@ if __name__ == "__main__":
     parameters = read_file(input_file)
 
     n_steps = int(parameters["n_steps"])
+    mode = int(parameters["mode"])
 
     # Lettura RBN
     n_genes, graph = read_graph("grafo_default.txt")
@@ -81,8 +103,19 @@ if __name__ == "__main__":
     n_cond, init_conditions = generate_initconditions("cond_default.txt")
 
     final_states = []
-    for c in range(n_cond):
-        final_state = simulate_steps(n_steps, graph, init_conditions[c])
-        final_states.append(final_state)
+
+    # Mode 1: stampo solo lo stato finale
+    if mode == 1:
+        for c in range(n_cond):
+            final_state = simulate_steps_mode1(n_steps, graph, init_conditions[c])
+            final_states.append(final_state)
+
+    # Mode 2: stampo tutti gli stati passo per passo
+    elif mode == 2:
+        for c in range(n_cond):
+            states = simulate_steps_mode2(n_steps, graph, init_conditions[c])
+            # Scorro la lista con tutti i passi e metto gli stati nella lista da stampare
+            for s in states:
+                final_states.append(s)
 
     print_states(n_genes, n_cond, final_states, "output_motore.txt")
