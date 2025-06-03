@@ -27,7 +27,7 @@ def read_graph(file_name):
 
 
 # Lettore condizioni iniziali
-def generate_initconditions(file_name):
+def read_initconditions(file_name):
     init_conditions = {}
 
     with open(file_name, "r", encoding="utf-8") as file:
@@ -100,7 +100,7 @@ if __name__ == "__main__":
     n_genes, graph = read_graph("grafo_default.txt")
 
     # Lettura condizioni iniziali
-    n_cond, init_conditions = generate_initconditions("cond_default.txt")
+    n_cond, init_conditions = read_initconditions("cond_default.txt")
 
     final_states = []
 
