@@ -1,4 +1,5 @@
-from utils import read_file, print_states
+import os
+from utils import read_file, print_states, input_choice
 
 
 # Lettore RBN
@@ -89,18 +90,20 @@ def simulate_steps_mode2(n_steps, graph, init_condition):
 
 if __name__ == "__main__":
 
+    # Scelta se lavorare con l'agente o con l'ambiente
+    directory = input_choice()
+
     # Lettura parametri
-    input_file = "input_motore.txt"
-    parameters = read_file(input_file)
+    parameters = read_file(os.path.join(directory, "input_motore.txt"))
 
     n_steps = int(parameters["n_steps"])
     mode = int(parameters["mode"])
 
     # Lettura RBN
-    n_genes, graph = read_graph("grafo_default.txt")
+    n_genes, graph = read_graph(os.path.join(directory, "grafo_default.txt"))
 
     # Lettura condizioni iniziali
-    n_cond, init_conditions = read_initconditions("cond_default.txt")
+    n_cond, init_conditions = read_initconditions(os.path.join(directory, "cond_default.txt"))
 
     final_states = []
 
@@ -118,4 +121,5 @@ if __name__ == "__main__":
             for s in states:
                 final_states.append(s)
 
-    print_states(n_genes, n_cond, final_states, "output_motore.txt")
+    output_file = os.path.join(directory, "output_motore.txt")
+    print_states(n_genes, n_cond, final_states, output_file)

@@ -1,6 +1,0 @@
-n_nodi: 20
-k:  3
-bias: 0.21
-seme: 0
-
-

@@ -1,5 +1,5 @@
-import random
-from utils import read_file, generate_random_boolean_values, print_states
+import random, os
+from utils import read_file, generate_random_boolean_values, print_states, input_choice
 
 
 # Controllore ammissibilità parametri
@@ -28,8 +28,11 @@ def generate_initconditions(n_genes, n_cond, bias):
 
 if __name__ == "__main__":
 
+    # Scelta se lavorare con l'agente o con l'ambiente
+    directory = input_choice()
+
     # Lettura parametri
-    input_file = "input_gen_cond.txt"
+    input_file = os.path.join(directory, "input_gen_cond.txt")
     parameters = read_file(input_file)
 
     # Conversione parametri
@@ -49,4 +52,5 @@ if __name__ == "__main__":
     initconditions = generate_initconditions(n_genes, n_cond, bias)
 
     # Scrittura condizioni iniziali su file
-    print_states(n_genes, n_cond, initconditions, "cond_default.txt")
+    output_file = os.path.join(directory, "cond_default.txt")
+    print_states(n_genes, n_cond, initconditions, output_file)

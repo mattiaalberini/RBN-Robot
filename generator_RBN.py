@@ -1,5 +1,5 @@
-import random
-from utils import read_file, generate_random_boolean_values
+import random, os
+from utils import read_file, generate_random_boolean_values, input_choice
 
 generatore_semplice = False
 
@@ -54,8 +54,8 @@ def generate_graph(n_nodi, k_minimo, k_massimo, probabilita_k, bias_per_ogni_k):
 
 
 # Scrittore RBN su file
-def print_grafo(n_nodi, graph):
-    with open("grafo_default.txt", "w") as file:
+def print_grafo(n_nodi, graph, directory):
+    with open(os.path.join(directory, "grafo_default.txt"), "w") as file:
         file.write(f"n_genes: {n_nodi}\n")
 
         for n in range(n_nodi):
@@ -75,11 +75,15 @@ def print_grafo(n_nodi, graph):
 
 
 if __name__ == "__main__":
+
+    # Scelta se lavorare con l'agente o con l'ambiente
+    directory = input_choice()
+
     # Lettura input
     if generatore_semplice:
-        input_file = "input_generatore_SEMPLICE.txt"
+        input_file = os.path.join(directory, "input_generatore_SEMPLICE.txt")
     else:
-        input_file = "input_generatore_PIUCOMPLICATO.txt"
+        input_file = os.path.join(directory, "input_generatore_PIUCOMPLICATO.txt")
 
     parameters = read_file(input_file)
 
@@ -109,4 +113,4 @@ if __name__ == "__main__":
     graph = generate_graph(n_nodi, k_minimo, k_massimo, probabilita_k, bias_per_ogni_k)
 
     # Scrivo grafo su file
-    print_grafo(n_nodi, graph)
+    print_grafo(n_nodi, graph, directory)
