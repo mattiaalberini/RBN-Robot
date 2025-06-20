@@ -13,6 +13,23 @@ def read_file(file_name):
     return parameters_app
 
 
+# Lettore condizioni iniziali
+def read_initconditions(file_name):
+    init_conditions = {}
+
+    with open(file_name, "r", encoding="utf-8") as file:
+        first_line = file.readline().split()
+
+        n_genes = int(first_line[1])
+        n_cond = int(first_line[3])
+
+        for c in range(n_cond):
+            init_condition = [int(x) for x in file.readline().split()]
+            init_conditions[c] = init_condition
+
+    return n_cond, init_conditions
+
+
 # Generatore valori booleani random
 def generate_random_boolean_values(n_output, bias):
     output = []

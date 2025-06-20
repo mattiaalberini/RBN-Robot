@@ -1,5 +1,5 @@
 import os
-from utils import read_file, print_states, input_choice
+from utils import read_file, print_states, input_choice, read_initconditions
 
 
 # Lettore RBN
@@ -25,23 +25,6 @@ def read_graph(file_name):
         graph[gene] = nodo
 
     return n_genes, graph
-
-
-# Lettore condizioni iniziali
-def read_initconditions(file_name):
-    init_conditions = {}
-
-    with open(file_name, "r", encoding="utf-8") as file:
-        first_line = file.readline().split()
-
-        n_genes = int(first_line[1])
-        n_cond = int(first_line[3])
-
-        for c in range(n_cond):
-            init_condition = [int(x) for x in file.readline().split()]
-            init_conditions[c] = init_condition
-
-    return n_cond, init_conditions
 
 
 def simulate_step(state, graph):
