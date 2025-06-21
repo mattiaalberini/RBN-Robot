@@ -13,6 +13,31 @@ def read_file(file_name):
     return parameters_app
 
 
+# Lettore RBN
+def read_graph(file_name):
+    graph = {}
+
+    with open(file_name, "r", encoding="utf-8") as file:
+        lines = file.readlines()
+
+    n_genes = lines[0].split(":")[1].strip()
+
+    # Leggo il file une gene (3 righe) alla volta
+    for g in range(1, len(lines), 3):
+        gene = int(lines[g].split(":")[1].strip())
+        ingressi_app = lines[g + 1].split(":")[1].strip()
+        uscite_app = lines[g + 2].split(":")[1].strip()
+
+        ingressi = [int(x) for x in ingressi_app.split()]
+        uscite = [int(x) for x in uscite_app.split()]
+
+        nodo = {"ingressi": ingressi, "uscite": uscite}
+
+        graph[gene] = nodo
+
+    return n_genes, graph
+
+
 # Lettore condizioni iniziali
 def read_initconditions(file_name):
     init_conditions = {}
@@ -54,8 +79,8 @@ def print_states(n_genes, n_cond, states, file_name):
 
 
 # Scelta del file dove prendere i dati in input (agente o ambiente)
-def input_choice():
-    print("Scegliere cosa generare: ")
+def input_choice(testo):
+    print("Scegliere cosa " + testo + ":")
     print("1. Agente")
     print("2. Ambiente")
 
@@ -75,3 +100,21 @@ def input_choice():
             print("Scelta non valida. Riprovare inserendo 1 o 2.")
 
     return directory
+
+
+def simulate_step(state, graph):
+    new_state = []
+
+    # Scorro tutti i nodi della rete
+    for n_gene, data_gene in graph.items():
+        ingressi = data_gene["ingressi"]
+        uscite = data_gene["uscite"]
+
+        # Recupero i valori degli ingressi dallo stato procedente -> Ricavo l'output a partire dagli ingressi intesi come numero binario -> Nuovo stato
+        input_values = [state[i] for i in ingressi]  # Valori degli ingressi presi dallo stato precedente
+        str_index = ''.join(map(str, input_values))  # Indice binario come stringa per accedere all'output
+        index = int(str_index, 2)  # Indice binario come stringa trasformato in indice decimale intero intero
+
+        new_state.append(uscite[index])
+
+    return new_state

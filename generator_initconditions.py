@@ -29,7 +29,7 @@ def generate_initconditions(n_genes, n_cond, bias):
 if __name__ == "__main__":
 
     # Scelta se lavorare con l'agente o con l'ambiente
-    directory = input_choice()
+    directory = input_choice("generare")
 
     # Lettura parametri
     input_file = os.path.join(directory, "input_gen_cond.txt")

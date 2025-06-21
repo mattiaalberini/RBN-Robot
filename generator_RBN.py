@@ -77,7 +77,7 @@ def print_grafo(n_nodi, graph, directory):
 if __name__ == "__main__":
 
     # Scelta se lavorare con l'agente o con l'ambiente
-    directory = input_choice()
+    directory = input_choice("generare")
 
     # Lettura input
     if generatore_semplice:
