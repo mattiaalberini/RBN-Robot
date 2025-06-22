@@ -1,0 +1,13 @@
+n_steps: 20
+orologio agente: 3
+orologio ambiente: 5
+soglia sensori: 0.5
+soglia effettori: 0.4
+ELENCO EFFETTORI (ID NODO AGENTE - ID NODO AMBIENTE)
+2 	14
+13	3
+ELENCO SENSORI (ID NODO AGENTE - ID NODO AMBIENTE)
+12  	15
+1	0
+2  	12
+mode: 2
