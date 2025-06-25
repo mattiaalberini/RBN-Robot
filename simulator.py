@@ -57,6 +57,7 @@ if __name__ == "__main__":
     # Mode 2: stampo tutti gli stati passo per passo
     elif mode == 2:
         for c in range(n_cond):
+            final_states.append(init_conditions[c])
             states = simulate_steps_mode2(n_steps, graph, init_conditions[c])
             # Scorro la lista con tutti i passi e metto gli stati nella lista da stampare
             for s in states:
