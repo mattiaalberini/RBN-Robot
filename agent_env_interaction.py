@@ -189,8 +189,6 @@ def print_old_new_val(old_new_val, file_name):
     with open(file_name, 'w') as f:
         nodes = list(sorted(old_new_val.keys()))
 
-        print(nodes)
-
         # Stampo due volte le chiavi
         f.write(' '.join(str(k) for k in nodes) + ' ')
         f.write(' '.join(str(k) for k in nodes) + '\n')
@@ -262,6 +260,11 @@ def main():
     # Mode 1: stampo solo stato finale
     if mode == 1:
         for c in range(agent_ncond):
+            for x in effettori:
+                effettori_old_new_val[effettori[x]].append({"old": -1, "new": -1})
+            for x in sensori:
+                sensori_old_new_val[sensori[x]].append({"old": -1, "new": -1})
+
             agent_final_state, env_final_state = simulate_agent_env_steps_mode1(agent_rbn, env_rbn, tot_steps, agent_step, env_step, soglia_sensori, soglia_effettori, effettori, sensori, agent_initconditions[c], env_initconditions[c], agent_node_val_sum, env_node_val_sum, effettori_old_new_val, sensori_old_new_val)
 
             print(agent_final_state)
@@ -273,6 +276,11 @@ def main():
     # Mode 2: stampo tutti gli stati
     elif mode == 2:
         for c in range(agent_ncond):
+            for x in effettori:
+                effettori_old_new_val[effettori[x]].append({"old": -1, "new": -1})
+            for x in sensori:
+                sensori_old_new_val[sensori[x]].append({"old": -1, "new": -1})
+
             agent_states, env_states = simulate_agent_env_steps_mode2(agent_rbn, env_rbn, tot_steps, agent_step, env_step, soglia_sensori, soglia_effettori, effettori, sensori, agent_initconditions[c], env_initconditions[c], agent_node_val_sum, env_node_val_sum, effettori_old_new_val, sensori_old_new_val)
 
             for a in agent_states:
@@ -283,6 +291,11 @@ def main():
     # Mode 3: stampo ogni stato al cambiamento
     elif mode == 3:
         for c in range(agent_ncond):
+            for x in effettori:
+                effettori_old_new_val[effettori[x]].append({"old": -1, "new": -1})
+            for x in sensori:
+                sensori_old_new_val[sensori[x]].append({"old": -1, "new": -1})
+
             agent_states, env_states = simulate_agent_env_steps_mode3(agent_rbn, env_rbn, tot_steps, agent_step, env_step, soglia_sensori, soglia_effettori, effettori, sensori, agent_initconditions[c], env_initconditions[c], agent_node_val_sum, env_node_val_sum, effettori_old_new_val, sensori_old_new_val)
 
             for a in agent_states:
@@ -294,8 +307,6 @@ def main():
     print_states(agent_num_genes, agent_ncond, agent_final_states, os.path.join("agent", "output_interaction.txt"))
     print_states(env_num_genes, env_ncond, env_final_states, os.path.join("environment", "output_interaction.txt"))
 
-    print(effettori_old_new_val)
-    print(sensori_old_new_val)
     print_old_new_val(sensori_old_new_val, os.path.join("agent", "variazione_nodi.txt"))
     print_old_new_val(effettori_old_new_val, os.path.join("environment", "variazione_nodi.txt"))
 
