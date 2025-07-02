@@ -26,3 +26,8 @@ Il risultato delle simulazioni viene stampato nei file **`output_interaction.txt
 - **mode = 1**: stampa solo lo stato finale
 - **mode = 2**: stampa tutti gli stati passo per passo
 - **mode = 3**: stampa ogni stato al cambiamento
+
+## Calcolo benessere
+**`benessere_calculator.py`** calcola il **benessere** dell'agente basandosi sui parametri forniti da **`input_benessere.txt`** e dagli stati dell'agente presenti nel file **`output_interaction_mode3.txt`**. 
+File generabile solamente simulando l'interazione agente-ambiente in *mode 3*. \
+Il valore calcolato viene salvato nel file **`benessere_agent.txt`** ed è la media del benessere dell'agente calcolato a ogni simulazione.
