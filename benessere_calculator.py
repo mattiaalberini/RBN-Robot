@@ -128,7 +128,7 @@ def main():
         benessere = round(calculate_benessere(states_condition, omega, essenziali), 6)
         benessere_sum += benessere
 
-        print(benessere)
+        print("Benessere: " + str(benessere) + "\n")
 
     benessere_tot = round((benessere_sum / Decimal(str(n_cond))), 6)
     print("Media benessere:", benessere_tot)
