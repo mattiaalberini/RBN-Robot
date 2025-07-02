@@ -257,12 +257,9 @@ def main():
 
     agent_final_states, env_final_states = [], []
 
-    output_filename = "output_interaction.txt"
 
     # Mode 1: stampo solo stato finale
     if mode == 1:
-        output_filename = "output_interaction_mode1.txt"
-
         for c in range(agent_ncond):
             for x in effettori:
                 effettori_old_new_val[effettori[x]].append({"old": -1, "new": -1})
@@ -279,8 +276,6 @@ def main():
 
     # Mode 2: stampo tutti gli stati
     elif mode == 2:
-        output_filename = "output_interaction_mode2.txt"
-
         for c in range(agent_ncond):
             for x in effettori:
                 effettori_old_new_val[effettori[x]].append({"old": -1, "new": -1})
@@ -296,8 +291,6 @@ def main():
 
     # Mode 3: stampo ogni stato al cambiamento
     elif mode == 3:
-        output_filename = "output_interaction_mode3.txt"
-
         for c in range(agent_ncond):
             for x in effettori:
                 effettori_old_new_val[effettori[x]].append({"old": -1, "new": -1})
@@ -311,9 +304,11 @@ def main():
             for e in env_states:
                 env_final_states.append(e)
 
+        print_states(agent_num_genes, agent_ncond, agent_final_states, os.path.join("agent", "output_interaction_mode3.txt"))
 
-    print_states(agent_num_genes, agent_ncond, agent_final_states, os.path.join("agent", output_filename))
-    print_states(env_num_genes, env_ncond, env_final_states, os.path.join("environment", output_filename))
+
+    print_states(agent_num_genes, agent_ncond, agent_final_states, os.path.join("agent", "output_interaction.txt"))
+    print_states(env_num_genes, env_ncond, env_final_states, os.path.join("environment", "output_interaction.txt"))
 
     print_old_new_val(sensori_old_new_val, os.path.join("agent", "variazione_nodi.txt"))
     print_old_new_val(effettori_old_new_val, os.path.join("environment", "variazione_nodi.txt"))
