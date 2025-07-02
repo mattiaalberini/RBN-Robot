@@ -27,6 +27,12 @@ Il risultato delle simulazioni viene stampato nei file **`output_interaction.txt
 - **mode = 2**: stampa tutti gli stati passo per passo
 - **mode = 3**: stampa ogni stato al cambiamento
 
+Nei file **`variazione_nodi.txt`** vengono stampati i valori dei:
+- nodi sensori per l'agente
+- nodi su cui hanno effetto gli effettori per l'ambiente
+
+Nelle colonne a sinistra sono stampati i valori attuali dei nodi, nelle colonne a destra vengono stampati i valori che i nodi avrebbero senza l'interazione agente-ambiente.
+
 ## Calcolo benessere
 **`benessere_calculator.py`** calcola il **benessere** dell'agente basandosi sui parametri forniti da **`input_benessere.txt`** e dagli stati dell'agente presenti nel file **`output_interaction_mode3.txt`**. 
 File generabile solamente simulando l'interazione agente-ambiente in *mode 3*. \
