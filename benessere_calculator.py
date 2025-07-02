@@ -17,7 +17,6 @@ def read_file(file_name):
                 next_read = "essenziali"
                 parameters_app["essenziali"] = {}
 
-
             if next_read == "essenziali":
                 parts = line.split()
                 if len(parts) == 2:
@@ -28,6 +27,7 @@ def read_file(file_name):
     return parameters_app
 
 
+# Lettore stati
 def read_states(file_name):
     states = {}
 
@@ -44,6 +44,24 @@ def read_states(file_name):
     return n_cond, states
 
 
+# Controllore ammissibilità parametri
+def check_parameters(n_cond, n_states):
+    # Il numero di stati deve essere un multiplo del numero delle condizioni iniziali, altrimenti non posso dividere in parti uguali l'elenco degli stati
+    if (n_states % n_cond) != 0:
+        raise ValueError("Numero degli stati non corrisponde al numero di condizioni iniziali")
+
+
+# Divide l'elenco di stati in liste, dove una lista rappresenta l'evoluzione di una condizione iniziale
+def split_list(c, n_states_condition, states):
+    new_states = {}
+
+    for i in range(c * int(n_states_condition), (c + 1) * int(n_states_condition)):
+        new_states[i] = states[i]
+
+    return new_states
+
+
+# Calcola il benessere dell'agente
 def calculate_benessere(states, omega, essenziali):
 
     # Variabile temporanea per calcolare la media dei valori dei nodi essenziali
@@ -55,32 +73,36 @@ def calculate_benessere(states, omega, essenziali):
     distance_steps = Decimal('0')
     c_step = Decimal('0')
 
-    for s in states:
+    for i, s in enumerate(states):
         # Sommo i valori dei nodi essenziali
         for e in essenziali:
-            #print(s, e)
             agent_node_val_sum[e] += states[s][e]
 
-        if (s + 1) % omega == 0:
+        if (i + Decimal('1')) % omega == 0:
             for e in essenziali:
                 agent_node_val_med = agent_node_val_sum[e] / omega
                 #print(str(e) + ": " + str(agent_node_val_med))
 
                 distance_sum += pow((agent_node_val_med - essenziali[e]), 2)
-                print(pow((agent_node_val_med - essenziali[e]), 2))
+                print(str(e) + ": " + str(pow((agent_node_val_med - essenziali[e]), 2)))
 
             distance_steps += distance_sum.sqrt()
             print(round(distance_sum.sqrt(), 6))
             c_step += 1
-
 
             agent_node_val_sum = {x: 0 for x in agent_node_val_sum}
             distance_sum = 0
             print("\n")
 
     benessere = distance_steps / c_step
+
     return benessere
 
+
+# Scrittura benessere su file
+def print_benessere(file_name, benessere):
+    with open(file_name, "w") as file:
+        file.write(f"benessere: {benessere}\n")
 
 
 def main():
@@ -95,9 +117,24 @@ def main():
 
     n_cond, states = read_states(os.path.join("agent", "output_interaction_mode3.txt"))
 
-    benessere = calculate_benessere(states, omega, essenziali)
+    check_parameters(n_cond, len(states))
+    n_states_condition = len(states) / n_cond
 
-    print(benessere)
+    benessere_sum = Decimal('0')
+
+    for c in range(n_cond):
+        states_condition = split_list(c, n_states_condition, states)
+
+        benessere = round(calculate_benessere(states_condition, omega, essenziali), 6)
+        benessere_sum += benessere
+
+        print(benessere)
+
+    benessere_tot = round((benessere_sum / Decimal(str(n_cond))), 6)
+    print("Media benessere:", benessere_tot)
+
+    print_benessere("benessere_agent.txt", benessere_tot)
+
 
 if __name__ == "__main__":
     main()
