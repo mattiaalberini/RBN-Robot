@@ -38,7 +38,19 @@ def read_file(file_name):
 
 
 # Controllore ammissibilità parametri
-def check_parameters(agent_ncond, env_ncond):
+def check_parameters(use_agent_RBN, use_agent_condini, use_env_RBN, use_env_condini):
+    if use_agent_RBN != "S" and use_agent_RBN != "N":
+        raise ValueError("'usare agente già presente' diverso da 'S' o 'N'")
+    if use_agent_condini != "S" and use_agent_condini != "N":
+        raise ValueError("'usare condini agente già presenti' diverso da 'S' o 'N'")
+    if use_env_RBN != "S" and use_env_RBN != "N":
+        raise ValueError("'usare ambiente già presente' diverso da 'S' o 'N'")
+    if use_env_condini != "S" and use_env_condini != "N":
+        raise ValueError("'usare condini ambiente già presenti' diverso da 'S' o 'N'")
+
+
+# Controllore ammissibilità condizioni iniziali
+def check_ncond(agent_ncond, env_ncond):
     # Agente e ambiente devono avere lo stesso numero di condizioni iniziali
     if agent_ncond != env_ncond:
         raise ValueError("Numero condizioni iniziali agente e ambiente diverso")
@@ -147,8 +159,11 @@ def simulate_agent_env_steps_mode1(agent_rbn, env_rbn, tot_steps, agent_step, en
 # Mode 2: tutti gli stati
 def simulate_agent_env_steps_mode2(agent_rbn, env_rbn, tot_steps, agent_step, env_step, soglia_sensori, soglia_effettori, effettori, sensori, agent_state, env_state, agent_node_val_sum, env_node_val_sum, effettori_old_new_val, sensori_old_new_val):
     agent_states, env_states = [], []
+    change_agent_states, change_env_states = [], []
     agent_states.append(list(agent_state))
     env_states.append(list(env_state))
+    change_agent_states.append(list(agent_state))
+    change_env_states.append(list(env_state))
 
     # Variabile temporanea per calcolare la media dei valori che interagiscono con l'altra RBN
     agent_node_val_sum = {x: 0 for x in agent_node_val_sum}
@@ -159,9 +174,16 @@ def simulate_agent_env_steps_mode2(agent_rbn, env_rbn, tot_steps, agent_step, en
         agent_state, env_state, agent_node_val_sum, env_node_val_sum = simulate_agent_env_step(s, agent_rbn, env_rbn, agent_step, env_step, soglia_sensori, soglia_effettori, effettori, sensori, agent_state, env_state, agent_node_val_sum, env_node_val_sum, effettori_old_new_val, sensori_old_new_val)
         agent_states.append(list(agent_state))
         env_states.append(list(env_state))
+
+        if s % agent_step == 0:
+            change_agent_states.append(list(agent_state))
+
+        if s % env_step == 0:
+            change_env_states.append(list(env_state))
+
         print("\n")
 
-    return agent_states, env_states
+    return agent_states, env_states, change_agent_states, change_env_states
 
 
 # Mode 3: ogni stato al cambiamento
@@ -227,13 +249,11 @@ def print_old_new_val(old_new_val, file_name):
 def main():
 
     parameters = read_file("input_AG_AMB.txt")
-    print(parameters)
 
-    agent_num_genes, agent_rbn = read_graph(os.path.join("agent", "grafo_default.txt"))
-    env_num_genes, env_rbn = read_graph(os.path.join("environment", "grafo_default.txt"))
-
-    agent_ncond, agent_initconditions = read_initconditions(os.path.join("agent", "cond_default.txt"))
-    env_ncond, env_initconditions = read_initconditions(os.path.join("environment", "cond_default.txt"))
+    use_agent_RBN = parameters["usare agente già presente"]
+    use_agent_condini = parameters["usare condini agente già presenti"]
+    use_env_RBN = parameters["usare ambiente già presente"]
+    use_env_condini = parameters["usare condini ambiente già presenti"]
 
     tot_steps = int(parameters["n_steps"])
     agent_step = int(parameters["orologio agente"])
@@ -250,8 +270,25 @@ def main():
     # Mode
     mode = int(parameters["mode"])
 
-    # Controllo la correttezza dei parametri
-    check_parameters(agent_ncond, env_ncond)
+    check_parameters(use_agent_RBN, use_agent_condini, use_env_RBN, use_env_condini)
+
+    if use_agent_RBN == "N":
+        subprocess.run(["python", "generator_RBN.py", "-a"])
+    if use_agent_condini == "N":
+        subprocess.run(["python", "generator_initconditions.py", "-a"])
+    if use_env_RBN == "N":
+        subprocess.run(["python", "generator_RBN.py", "-e"])
+    if use_env_condini == "N":
+        subprocess.run(["python", "generator_initconditions.py", "-e"])
+
+    agent_num_genes, agent_rbn = read_graph(os.path.join("agent", "grafo_default.txt"))
+    env_num_genes, env_rbn = read_graph(os.path.join("environment", "grafo_default.txt"))
+
+    agent_ncond, agent_initconditions = read_initconditions(os.path.join("agent", "cond_default.txt"))
+    env_ncond, env_initconditions = read_initconditions(os.path.join("environment", "cond_default.txt"))
+
+    # Controllo la correttezza del numero di condizioni iniziali
+    check_ncond(agent_ncond, env_ncond)
 
     # Variabile temporanea per calcolare la media dei valori che interagiscono con l'altra RBN
     agent_node_val_sum = {x: 0 for x in effettori}
@@ -262,6 +299,7 @@ def main():
     sensori_old_new_val = {v: [] for k, v in sensori.items()}
 
     agent_final_states, env_final_states = [], []
+    agent_final_states_mode3, env_final_states_mode3 = [], []
 
 
     # Mode 1: stampo solo stato finale
@@ -288,12 +326,22 @@ def main():
             for x in sensori:
                 sensori_old_new_val[sensori[x]].append({"old": -1, "new": -1})
 
-            agent_states, env_states = simulate_agent_env_steps_mode2(agent_rbn, env_rbn, tot_steps, agent_step, env_step, soglia_sensori, soglia_effettori, effettori, sensori, agent_initconditions[c], env_initconditions[c], agent_node_val_sum, env_node_val_sum, effettori_old_new_val, sensori_old_new_val)
+            agent_states, env_states, agent_states_mode3, env_states_mode3 = simulate_agent_env_steps_mode2(agent_rbn, env_rbn, tot_steps, agent_step, env_step, soglia_sensori, soglia_effettori, effettori, sensori, agent_initconditions[c], env_initconditions[c], agent_node_val_sum, env_node_val_sum, effettori_old_new_val, sensori_old_new_val)
 
             for a in agent_states:
                 agent_final_states.append(a)
             for e in env_states:
                 env_final_states.append(e)
+
+            for a in agent_states_mode3:
+                agent_final_states_mode3.append(a)
+            for e in env_states_mode3:
+                env_final_states_mode3.append(e)
+
+            print_states(agent_num_genes, agent_ncond, agent_final_states_mode3, os.path.join("agent", "output_interaction_mode3.txt"))
+            print_states(env_num_genes, env_ncond, env_final_states_mode3, os.path.join("environment", "output_interaction_mode3.txt"))
+
+            subprocess.run(["python", "benessere_calculator.py"])
 
     # Mode 3: stampo ogni stato al cambiamento
     elif mode == 3:
@@ -311,6 +359,7 @@ def main():
                 env_final_states.append(e)
 
         print_states(agent_num_genes, agent_ncond, agent_final_states, os.path.join("agent", "output_interaction_mode3.txt"))
+        print_states(env_num_genes, env_ncond, env_final_states, os.path.join("environment", "output_interaction_mode3.txt"))
 
         subprocess.run(["python", "benessere_calculator.py"])
 
