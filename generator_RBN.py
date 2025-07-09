@@ -75,7 +75,7 @@ def print_grafo(n_nodi, graph, directory):
             file.write("\n")
 
 
-def generate_entity(directory):
+def generate_component(directory):
     input_file = os.path.join(directory, "input_generatore.txt")
 
     parameters = read_file(input_file)
@@ -106,11 +106,11 @@ def main():
     args = utils.get_args()
 
     if args.agent:
-        generate_entity("agent")
+        generate_component("agent")
         print("Agente generato")
     if args.env:
         print("Ambiente generato")
-        generate_entity("environment")
+        generate_component("environment")
     if not args.agent and not args.env:
         print("Nessun parametro fornito. Usa -a e/o -e per generare.")
 
