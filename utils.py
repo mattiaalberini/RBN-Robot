@@ -1,3 +1,4 @@
+import argparse
 import random
 
 
@@ -100,6 +101,14 @@ def input_choice(testo):
             print("Scelta non valida. Riprovare inserendo 1 o 2.")
 
     return directory
+
+
+def get_args():
+    parser = argparse.ArgumentParser(description="Scelta per decidere se lavorare con l'agente o con l'ambiente")
+    parser.add_argument("-a", "--agent", action="store_true", help="Lavora con l'agente")
+    parser.add_argument("-e", "--env", action="store_true", help="Lavora con l'ambiente")
+
+    return parser.parse_args()
 
 
 def simulate_step(state, graph):
