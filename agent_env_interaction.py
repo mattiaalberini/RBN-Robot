@@ -1,4 +1,5 @@
 import os
+import subprocess
 
 from utils import read_graph, read_initconditions, print_states, simulate_step
 
@@ -188,6 +189,7 @@ def simulate_agent_env_steps_mode3(agent_rbn, env_rbn, tot_steps, agent_step, en
     return agent_states, env_states
 
 
+# Stampa le variazioni dei nodi sensori e dei nodi su cui agiscono gli effettori
 def print_old_new_val(old_new_val, file_name):
 
     with open(file_name, 'w') as f:
@@ -309,6 +311,8 @@ def main():
                 env_final_states.append(e)
 
         print_states(agent_num_genes, agent_ncond, agent_final_states, os.path.join("agent", "output_interaction_mode3.txt"))
+
+        subprocess.run(["python", "benessere_calculator.py"])
 
 
     print_states(agent_num_genes, agent_ncond, agent_final_states, os.path.join("agent", "output_interaction.txt"))
