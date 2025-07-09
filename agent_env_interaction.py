@@ -55,17 +55,17 @@ def simulate_agent_env_step (s, agent_rbn, env_rbn, agent_step, env_step, soglia
     if s % agent_step == 0:
         # L'agente si modifica
         print("Modifica agente")
-        for e in env_node_val_sum:
-            if env_node_val_sum[e] / agent_step < soglia_sensori:
-                # Media < Soglia -> Le uscite del nodo saranno tutte 0 e il nodo sarà = 0
-                #agent_rbn[sensori[e]]["uscite"] = [0 for _ in agent_rbn[sensori[e]]["uscite"]]
-                agent_state[sensori[e]] = 0
-                print("Nodo " + str(sensori[e]) + " -> 0 (preso da nodo " + str(e) + " dell'ambiente)")
-            else:
-                # Media < Soglia -> Le uscite del nodo saranno tutte 1 e il nodo sarà = 1
-                #agent_rbn[sensori[e]]["uscite"] = [1 for _ in agent_rbn[sensori[e]]["uscite"]]
-                agent_state[sensori[e]] = 1
-                print("Nodo " + str(sensori[e]) + " -> 1 (preso da nodo " + str(e) + " dell'ambiente)")
+        # for e in env_node_val_sum:
+        #     if env_node_val_sum[e] / agent_step < soglia_sensori:
+        #         # Media < Soglia -> Le uscite del nodo saranno tutte 0 e il nodo sarà = 0
+        #         #agent_rbn[sensori[e]]["uscite"] = [0 for _ in agent_rbn[sensori[e]]["uscite"]]
+        #         agent_state[sensori[e]] = 0
+        #         print("Nodo " + str(sensori[e]) + " -> 0 (preso da nodo " + str(e) + " dell'ambiente)")
+        #     else:
+        #         # Media < Soglia -> Le uscite del nodo saranno tutte 1 e il nodo sarà = 1
+        #         #agent_rbn[sensori[e]]["uscite"] = [1 for _ in agent_rbn[sensori[e]]["uscite"]]
+        #         agent_state[sensori[e]] = 1
+        #         print("Nodo " + str(sensori[e]) + " -> 1 (preso da nodo " + str(e) + " dell'ambiente)")
 
         agent_state = simulate_step(agent_state, agent_rbn)
 
@@ -73,10 +73,12 @@ def simulate_agent_env_step (s, agent_rbn, env_rbn, agent_step, env_step, soglia
         for e in env_node_val_sum:
             if env_node_val_sum[e] / agent_step < soglia_sensori:
                 # Media < Soglia -> Le uscite del nodo saranno tutte 0 e il nodo sarà = 0
+                print("Nodo " + str(sensori[e]) + " -> 0 (preso da nodo " + str(e) + " dell'ambiente)")
                 sensori_old_new_val[sensori[e]].append({"old": agent_state[sensori[e]], "new": 0})
                 agent_state[sensori[e]] = 0
             else:
                 # Media < Soglia -> Le uscite del nodo saranno tutte 1 e il nodo sarà = 1
+                print("Nodo " + str(sensori[e]) + " -> 1 (preso da nodo " + str(e) + " dell'ambiente)")
                 sensori_old_new_val[sensori[e]].append({"old": agent_state[sensori[e]], "new": 1})
                 agent_state[sensori[e]] = 1
 
@@ -89,18 +91,18 @@ def simulate_agent_env_step (s, agent_rbn, env_rbn, agent_step, env_step, soglia
     if s % env_step == 0:
         # L'agente modifica l'ambiente
         print("Modifica ambiente")
-        for e in agent_node_val_sum:
-            if agent_node_val_sum[e] / env_step < soglia_effettori:
-                # Media < Soglia -> Le uscite del nodo saranno tutte 0 e il nodo sarà = 0
-                #env_rbn[effettori[e]]["uscite"] = [0 for _ in env_rbn[effettori[e]]["uscite"]]
-                env_state[effettori[e]] = 0
-                print("Nodo " + str(effettori[e]) + " -> 0 (preso da nodo " + str(e) + " dell'agente)")
-            else:
-                # Media < Soglia -> Le uscite del nodo saranno tutte 1 e il nodo sarà = 1
-                #env_rbn[effettori[e]]["uscite"] = [1 for _ in env_rbn[effettori[e]]["uscite"]]
-
-                env_state[effettori[e]] = 1
-                print("Nodo " + str(effettori[e]) + " -> 1 (preso da nodo " + str(e) + " dell'agente)")
+        # for e in agent_node_val_sum:
+        #     if agent_node_val_sum[e] / env_step < soglia_effettori:
+        #         # Media < Soglia -> Le uscite del nodo saranno tutte 0 e il nodo sarà = 0
+        #         #env_rbn[effettori[e]]["uscite"] = [0 for _ in env_rbn[effettori[e]]["uscite"]]
+        #         env_state[effettori[e]] = 0
+        #         print("Nodo " + str(effettori[e]) + " -> 0 (preso da nodo " + str(e) + " dell'agente)")
+        #     else:
+        #         # Media < Soglia -> Le uscite del nodo saranno tutte 1 e il nodo sarà = 1
+        #         #env_rbn[effettori[e]]["uscite"] = [1 for _ in env_rbn[effettori[e]]["uscite"]]
+        #
+        #         env_state[effettori[e]] = 1
+        #         print("Nodo " + str(effettori[e]) + " -> 1 (preso da nodo " + str(e) + " dell'agente)")
 
         env_state = simulate_step(env_state, env_rbn)
 
@@ -108,10 +110,12 @@ def simulate_agent_env_step (s, agent_rbn, env_rbn, agent_step, env_step, soglia
         for e in agent_node_val_sum:
             if agent_node_val_sum[e] / env_step < soglia_effettori:
                 # Media < Soglia -> Le uscite del nodo saranno tutte 0 e il nodo sarà = 0
+                print("Nodo " + str(effettori[e]) + " -> 0 (preso da nodo " + str(e) + " dell'agente)")
                 effettori_old_new_val[effettori[e]].append({"old": env_state[effettori[e]], "new": 0})
                 env_state[effettori[e]] = 0
             else:
                 # Media < Soglia -> Le uscite del nodo saranno tutte 1 e il nodo sarà = 1
+                print("Nodo " + str(effettori[e]) + " -> 1 (preso da nodo " + str(e) + " dell'agente)")
                 effettori_old_new_val[effettori[e]].append({"old": env_state[effettori[e]], "new": 1})
                 env_state[effettori[e]] = 1
 
