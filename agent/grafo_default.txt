@@ -1,61 +1,61 @@
 n_genes: 20
 gene: 0
-lista ingressi (4): 6 2 10 8
-uscite (16): 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+lista ingressi (2): 3 10
+uscite (4): 0 1 0 0
 gene: 1
-lista ingressi (3): 15 16 5
-uscite (8): 0 0 1 0 1 1 1 0
+lista ingressi (3): 16 0 14
+uscite (8): 0 0 0 0 0 0 1 1
 gene: 2
-lista ingressi (3): 0 14 18
-uscite (8): 1 0 0 0 0 1 0 0
+lista ingressi (2): 0 19
+uscite (4): 0 1 1 1
 gene: 3
-lista ingressi (3): 19 15 5
-uscite (8): 1 1 0 0 0 0 0 0
+lista ingressi (4): 17 8 16 19
+uscite (16): 0 0 0 0 1 1 0 1 1 0 0 0 0 0 1 1
 gene: 4
-lista ingressi (4): 2 19 1 13
-uscite (16): 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1
+lista ingressi (3): 14 18 7
+uscite (8): 0 0 1 1 0 0 0 0
 gene: 5
-lista ingressi (4): 9 17 2 1
-uscite (16): 0 0 1 0 1 0 0 0 0 0 0 0 0 1 0 1
+lista ingressi (4): 14 6 13 15
+uscite (16): 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 gene: 6
-lista ingressi (3): 1 9 17
-uscite (8): 0 0 0 0 0 0 1 0
-gene: 7
-lista ingressi (2): 13 18
-uscite (4): 0 0 1 1
-gene: 8
-lista ingressi (3): 9 15 19
-uscite (8): 0 0 0 0 0 0 0 1
-gene: 9
-lista ingressi (3): 13 18 2
-uscite (8): 0 0 0 0 0 0 0 0
-gene: 10
-lista ingressi (3): 2 6 9
-uscite (8): 1 1 0 0 0 1 0 0
-gene: 11
-lista ingressi (3): 16 5 13
-uscite (8): 1 0 1 0 0 0 0 0
-gene: 12
-lista ingressi (3): 9 10 17
-uscite (8): 0 0 0 0 0 1 1 0
-gene: 13
-lista ingressi (3): 18 6 9
-uscite (8): 0 0 0 0 0 0 0 0
-gene: 14
-lista ingressi (2): 5 12
-uscite (4): 0 0 0 0
-gene: 15
-lista ingressi (4): 11 0 7 4
-uscite (16): 0 0 0 0 0 1 0 0 0 1 0 0 1 0 0 0
-gene: 16
-lista ingressi (2): 8 12
+lista ingressi (2): 18 8
 uscite (4): 0 0 1 0
+gene: 7
+lista ingressi (4): 18 0 14 5
+uscite (16): 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0
+gene: 8
+lista ingressi (3): 5 19 6
+uscite (8): 1 1 1 1 0 1 0 0
+gene: 9
+lista ingressi (2): 0 10
+uscite (4): 0 0 1 0
+gene: 10
+lista ingressi (2): 5 9
+uscite (4): 1 0 0 1
+gene: 11
+lista ingressi (3): 10 17 18
+uscite (8): 0 0 0 1 0 0 0 1
+gene: 12
+lista ingressi (4): 14 0 8 1
+uscite (16): 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0
+gene: 13
+lista ingressi (3): 9 4 7
+uscite (8): 1 0 1 0 1 0 0 0
+gene: 14
+lista ingressi (2): 1 7
+uscite (4): 1 1 0 1
+gene: 15
+lista ingressi (4): 17 1 13 7
+uscite (16): 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 1
+gene: 16
+lista ingressi (4): 10 14 6 9
+uscite (16): 0 0 1 0 1 0 0 1 0 0 0 0 1 0 0 0
 gene: 17
-lista ingressi (3): 8 16 1
-uscite (8): 0 0 0 0 1 0 1 0
+lista ingressi (4): 11 10 12 3
+uscite (16): 0 1 0 1 1 0 0 0 0 0 1 0 0 0 0 0
 gene: 18
-lista ingressi (4): 6 11 4 14
-uscite (16): 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0 0
+lista ingressi (3): 19 17 7
+uscite (8): 0 1 0 0 0 0 1 0
 gene: 19
-lista ingressi (3): 13 1 7
-uscite (8): 0 0 0 0 0 1 1 0
+lista ingressi (2): 9 0
+uscite (4): 1 0 0 1
