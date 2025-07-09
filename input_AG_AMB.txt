@@ -1,8 +1,12 @@
-n_steps: 20
-orologio agente: 3
-orologio ambiente: 5
+n_steps: 200
+usare agente già presente: N
+usare condini agente già presente: N
+usare ambiente già presente: N
+usare condini ambiente già presente: N
+orologio agente: 4
+orologio ambiente: 6
 soglia sensori: 0.5
-soglia effettori: 0.4
+soglia effettori: 0.5
 ELENCO EFFETTORI (ID NODO AGENTE - ID NODO AMBIENTE)
 2 	14
 13	3
