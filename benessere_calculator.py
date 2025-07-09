@@ -100,9 +100,10 @@ def calculate_benessere(states, omega, essenziali):
 
 
 # Scrittura benessere su file
-def print_benessere(file_name, benessere):
+def print_benessere(file_name, benessere_list):
     with open(file_name, "w") as file:
-        file.write(f"benessere: {benessere}\n")
+        for benessere in benessere_list:
+            file.write(f"{benessere}\n")
 
 
 def main():
@@ -120,20 +121,17 @@ def main():
     check_parameters(n_cond, len(states))
     n_states_condition = len(states) / n_cond
 
-    benessere_sum = Decimal('0')
+    benessere_list = []
 
     for c in range(n_cond):
         states_condition = split_list(c, n_states_condition, states)
 
-        benessere = round(calculate_benessere(states_condition, omega, essenziali), 6)
-        benessere_sum += benessere
+        benessere = round(calculate_benessere(states_condition, omega, essenziali), 10)
+        benessere_list.append(benessere)
 
         print("Benessere: " + str(benessere) + "\n")
 
-    benessere_tot = round((benessere_sum / Decimal(str(n_cond))), 6)
-    print("Media benessere:", benessere_tot)
-
-    print_benessere("benessere_agent.txt", benessere_tot)
+    print_benessere("benessere_agent.txt", benessere_list)
 
 
 if __name__ == "__main__":
