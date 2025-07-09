@@ -1,7 +1,8 @@
-import random, os
-from utils import read_file, generate_random_boolean_values, input_choice
+import random
+import os
 
-generatore_semplice = False
+import utils
+from utils import read_file, generate_random_boolean_values, input_choice
 
 
 # Controllore ammissibilità parametri
@@ -74,33 +75,18 @@ def print_grafo(n_nodi, graph, directory):
             file.write("\n")
 
 
-if __name__ == "__main__":
-
-    # Scelta se lavorare con l'agente o con l'ambiente
-    directory = input_choice("generare")
-
-    # Lettura input
-    if generatore_semplice:
-        input_file = os.path.join(directory, "input_generatore_SEMPLICE.txt")
-    else:
-        input_file = os.path.join(directory, "input_generatore_PIUCOMPLICATO.txt")
+def generate_entity(directory):
+    input_file = os.path.join(directory, "input_generatore.txt")
 
     parameters = read_file(input_file)
 
     # Conversione parametri
     n_nodi = int(parameters["n_nodi"])
     seme = int(parameters["seme"])
-
-    if generatore_semplice:
-        k_minimo = int(parameters["k"])
-        k_massimo = int(parameters["k"])
-        probabilita_k = [1]
-        bias_per_ogni_k = [float(parameters["bias"])]
-    else:
-        k_minimo = int(parameters["k_minimo"])
-        k_massimo = int(parameters["k_massimo"])
-        probabilita_k = list(map(float, parameters["probabilità_k"].split()))
-        bias_per_ogni_k = list(map(float, parameters["bias_per_ogni_k"].split()))
+    k_minimo = int(parameters["k_minimo"])
+    k_massimo = int(parameters["k_massimo"])
+    probabilita_k = list(map(float, parameters["probabilità_k"].split()))
+    bias_per_ogni_k = list(map(float, parameters["bias_per_ogni_k"].split()))
 
     # Controllo parametri
     check_parameters(n_nodi, k_minimo, k_massimo, probabilita_k, bias_per_ogni_k)
@@ -114,3 +100,20 @@ if __name__ == "__main__":
 
     # Scrivo grafo su file
     print_grafo(n_nodi, graph, directory)
+
+
+def main():
+    args = utils.get_args()
+
+    if args.agent:
+        generate_entity("agent")
+        print("Agente generato")
+    if args.env:
+        print("Ambiente generato")
+        generate_entity("environment")
+    if not args.agent and not args.env:
+        print("Nessun parametro fornito. Usa -a e/o -e per generare.")
+
+
+if __name__ == "__main__":
+    main()
