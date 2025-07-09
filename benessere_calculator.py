@@ -84,15 +84,15 @@ def calculate_benessere(states, omega, essenziali):
                 #print(str(e) + ": " + str(agent_node_val_med))
 
                 distance_sum += pow((agent_node_val_med - essenziali[e]), 2)
-                print(str(e) + ": " + str(pow((agent_node_val_med - essenziali[e]), 2)))
+                #print(str(e) + ": " + str(pow((agent_node_val_med - essenziali[e]), 2)))
 
             distance_steps += distance_sum.sqrt()
-            print(round(distance_sum.sqrt(), 6))
+            #print(round(distance_sum.sqrt(), 6))
             c_step += 1
 
             agent_node_val_sum = {x: 0 for x in agent_node_val_sum}
             distance_sum = 0
-            print("\n")
+            #print("\n")
 
     benessere = distance_steps / c_step
 
@@ -129,7 +129,7 @@ def main():
         benessere = round(calculate_benessere(states_condition, omega, essenziali), 10)
         benessere_list.append(benessere)
 
-        print("Benessere: " + str(benessere) + "\n")
+        print("Benessere: " + str(benessere))
 
     print_benessere("benessere_agent.txt", benessere_list)
 

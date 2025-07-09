@@ -66,8 +66,7 @@ def simulate_agent_env_step (s, agent_rbn, env_rbn, agent_step, env_step, soglia
         env_node_val_sum[e] += env_state[e]
 
     if s % agent_step == 0:
-        # L'agente si modifica
-        print("Modifica agente")
+        # print("Modifica agente")
         # for e in env_node_val_sum:
         #     if env_node_val_sum[e] / agent_step < soglia_sensori:
         #         # Media < Soglia -> Le uscite del nodo saranno tutte 0 e il nodo sarà = 0
@@ -82,16 +81,16 @@ def simulate_agent_env_step (s, agent_rbn, env_rbn, agent_step, env_step, soglia
 
         agent_state = simulate_step(agent_state, agent_rbn)
 
-        # Correggo il valore dei nodi sensori che sono stati modificati durante la simulazione
+        # L'agente si modifica
         for e in env_node_val_sum:
             if env_node_val_sum[e] / agent_step < soglia_sensori:
                 # Media < Soglia -> Le uscite del nodo saranno tutte 0 e il nodo sarà = 0
-                print("Nodo " + str(sensori[e]) + " -> 0 (preso da nodo " + str(e) + " dell'ambiente)")
+                #print("Nodo " + str(sensori[e]) + " -> 0 (preso da nodo " + str(e) + " dell'ambiente)")
                 sensori_old_new_val[sensori[e]].append({"old": agent_state[sensori[e]], "new": 0})
                 agent_state[sensori[e]] = 0
             else:
                 # Media < Soglia -> Le uscite del nodo saranno tutte 1 e il nodo sarà = 1
-                print("Nodo " + str(sensori[e]) + " -> 1 (preso da nodo " + str(e) + " dell'ambiente)")
+                #print("Nodo " + str(sensori[e]) + " -> 1 (preso da nodo " + str(e) + " dell'ambiente)")
                 sensori_old_new_val[sensori[e]].append({"old": agent_state[sensori[e]], "new": 1})
                 agent_state[sensori[e]] = 1
 
@@ -102,8 +101,7 @@ def simulate_agent_env_step (s, agent_rbn, env_rbn, agent_step, env_step, soglia
 
 
     if s % env_step == 0:
-        # L'agente modifica l'ambiente
-        print("Modifica ambiente")
+        # print("Modifica ambiente")
         # for e in agent_node_val_sum:
         #     if agent_node_val_sum[e] / env_step < soglia_effettori:
         #         # Media < Soglia -> Le uscite del nodo saranno tutte 0 e il nodo sarà = 0
@@ -119,16 +117,16 @@ def simulate_agent_env_step (s, agent_rbn, env_rbn, agent_step, env_step, soglia
 
         env_state = simulate_step(env_state, env_rbn)
 
-        # Correggo il valore dei nodi su cui hanno effetto gli effettori che sono stati modificati durante la simulazione
+        # L'agente modifica l'ambiente
         for e in agent_node_val_sum:
             if agent_node_val_sum[e] / env_step < soglia_effettori:
                 # Media < Soglia -> Le uscite del nodo saranno tutte 0 e il nodo sarà = 0
-                print("Nodo " + str(effettori[e]) + " -> 0 (preso da nodo " + str(e) + " dell'agente)")
+                #print("Nodo " + str(effettori[e]) + " -> 0 (preso da nodo " + str(e) + " dell'agente)")
                 effettori_old_new_val[effettori[e]].append({"old": env_state[effettori[e]], "new": 0})
                 env_state[effettori[e]] = 0
             else:
                 # Media < Soglia -> Le uscite del nodo saranno tutte 1 e il nodo sarà = 1
-                print("Nodo " + str(effettori[e]) + " -> 1 (preso da nodo " + str(e) + " dell'agente)")
+                #print("Nodo " + str(effettori[e]) + " -> 1 (preso da nodo " + str(e) + " dell'agente)")
                 effettori_old_new_val[effettori[e]].append({"old": env_state[effettori[e]], "new": 1})
                 env_state[effettori[e]] = 1
 
@@ -149,9 +147,9 @@ def simulate_agent_env_steps_mode1(agent_rbn, env_rbn, tot_steps, agent_step, en
     env_node_val_sum = {x: 0 for x in env_node_val_sum}
 
     for s in range(1, tot_steps):
-        print(s)
+        #print(s)
         agent_state, env_state, agent_node_val_sum, env_node_val_sum = simulate_agent_env_step(s, agent_rbn, env_rbn, agent_step, env_step, soglia_sensori, soglia_effettori, effettori, sensori, agent_state, env_state, agent_node_val_sum, env_node_val_sum, effettori_old_new_val, sensori_old_new_val)
-        print("\n")
+        #print("\n")
 
     return agent_state, env_state
 
@@ -170,7 +168,7 @@ def simulate_agent_env_steps_mode2(agent_rbn, env_rbn, tot_steps, agent_step, en
     env_node_val_sum = {x: 0 for x in env_node_val_sum}
 
     for s in range(1, tot_steps):
-        print(s)
+        #print(s)
         agent_state, env_state, agent_node_val_sum, env_node_val_sum = simulate_agent_env_step(s, agent_rbn, env_rbn, agent_step, env_step, soglia_sensori, soglia_effettori, effettori, sensori, agent_state, env_state, agent_node_val_sum, env_node_val_sum, effettori_old_new_val, sensori_old_new_val)
         agent_states.append(list(agent_state))
         env_states.append(list(env_state))
@@ -181,7 +179,7 @@ def simulate_agent_env_steps_mode2(agent_rbn, env_rbn, tot_steps, agent_step, en
         if s % env_step == 0:
             change_env_states.append(list(env_state))
 
-        print("\n")
+        #print("\n")
 
     return agent_states, env_states, change_agent_states, change_env_states
 
@@ -197,7 +195,7 @@ def simulate_agent_env_steps_mode3(agent_rbn, env_rbn, tot_steps, agent_step, en
     env_node_val_sum = {x: 0 for x in env_node_val_sum}
 
     for s in range(1, tot_steps):
-        print(s)
+        #print(s)
         agent_state, env_state, agent_node_val_sum, env_node_val_sum = simulate_agent_env_step(s, agent_rbn, env_rbn, agent_step, env_step, soglia_sensori, soglia_effettori, effettori, sensori, agent_state, env_state, agent_node_val_sum, env_node_val_sum, effettori_old_new_val, sensori_old_new_val)
 
         if s % agent_step == 0:
@@ -206,7 +204,7 @@ def simulate_agent_env_steps_mode3(agent_rbn, env_rbn, tot_steps, agent_step, en
         if s % env_step == 0:
             env_states.append(list(env_state))
 
-        print("\n")
+        #print("\n")
 
     return agent_states, env_states
 
@@ -312,9 +310,6 @@ def main():
 
             agent_final_state, env_final_state = simulate_agent_env_steps_mode1(agent_rbn, env_rbn, tot_steps, agent_step, env_step, soglia_sensori, soglia_effettori, effettori, sensori, agent_initconditions[c], env_initconditions[c], agent_node_val_sum, env_node_val_sum, effettori_old_new_val, sensori_old_new_val)
 
-            print(agent_final_state)
-            print(env_final_state)
-
             agent_final_states.append(agent_final_state)
             env_final_states.append(env_final_state)
 
@@ -341,7 +336,7 @@ def main():
             print_states(agent_num_genes, agent_ncond, agent_final_states_mode3, os.path.join("agent", "output_interaction_mode3.txt"))
             print_states(env_num_genes, env_ncond, env_final_states_mode3, os.path.join("environment", "output_interaction_mode3.txt"))
 
-            subprocess.run(["python", "benessere_calculator.py"])
+        subprocess.run(["python", "benessere_calculator.py"])
 
     # Mode 3: stampo ogni stato al cambiamento
     elif mode == 3:
