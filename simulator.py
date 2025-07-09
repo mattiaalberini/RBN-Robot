@@ -1,6 +1,6 @@
 import os
 
-from utils import read_file, print_states, input_choice, read_initconditions, read_graph, simulate_step
+from utils import read_file, print_states, read_initconditions, read_graph, simulate_step, get_args
 
 
 # Motore RBN mode 1
@@ -29,11 +29,7 @@ def simulate_steps_mode2(n_steps, graph, init_condition):
     return states
 
 
-if __name__ == "__main__":
-
-    # Scelta se lavorare con l'agente o con l'ambiente
-    directory = input_choice("simulare")
-
+def simulate_entity(directory):
     # Lettura parametri
     parameters = read_file(os.path.join(directory, "input_motore.txt"))
 
@@ -65,3 +61,20 @@ if __name__ == "__main__":
 
     output_file = os.path.join(directory, "output_motore.txt")
     print_states(n_genes, n_cond, final_states, output_file)
+
+
+def main():
+    args = get_args()
+
+    if args.agent:
+        simulate_entity("agent")
+        print("Avvenuta simulazione agente")
+    if args.env:
+        simulate_entity("environment")
+        print("Avvenuta simulazione ambiente")
+    if not args.agent and not args.env:
+        print("Nessun parametro fornito. Usa -a e/o -e per generare le condizioni iniziali.")
+
+
+if __name__ == "__main__":
+    main()
