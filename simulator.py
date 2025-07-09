@@ -7,7 +7,7 @@ from utils import read_file, print_states, read_initconditions, read_graph, simu
 def simulate_steps_mode1(n_steps, graph, init_condition):
     state = init_condition
 
-    for s in range(n_steps):
+    for s in range(n_steps - 1):
         new_state = simulate_step(state, graph)
         state = new_state
 
@@ -21,7 +21,7 @@ def simulate_steps_mode2(n_steps, graph, init_condition):
     # Lista degli stati passo per passo
     states = []
 
-    for s in range(n_steps):
+    for s in range(n_steps - 1):
         new_state = simulate_step(state, graph)
         state = new_state
         states.append(state)

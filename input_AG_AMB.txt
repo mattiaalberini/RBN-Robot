@@ -1,4 +1,4 @@
-n_steps: 200
+n_steps: 20
 usare agente già presente: N
 usare condini agente già presenti: N
 usare ambiente già presente: N
