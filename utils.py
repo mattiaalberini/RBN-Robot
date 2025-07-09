@@ -79,30 +79,6 @@ def print_states(n_genes, n_cond, states, file_name):
             file.write("\n")
 
 
-# Scelta del file dove prendere i dati in input (agente o ambiente)
-def input_choice(testo):
-    print("Scegliere cosa " + testo + ":")
-    print("1. Agente")
-    print("2. Ambiente")
-
-    valid_choice = False
-    directory = ""
-
-    while not valid_choice:
-        choice = input("Inserire 1 o 2: ")
-
-        if choice == "1":
-            directory = "agent"
-            valid_choice = True
-        elif choice == "2":
-            directory = "environment"
-            valid_choice = True
-        else:
-            print("Scelta non valida. Riprovare inserendo 1 o 2.")
-
-    return directory
-
-
 def get_args():
     parser = argparse.ArgumentParser(description="Scelta per decidere se lavorare con l'agente o con l'ambiente")
     parser.add_argument("-a", "--agent", action="store_true", help="Lavora con l'agente")

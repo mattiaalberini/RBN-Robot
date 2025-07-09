@@ -2,7 +2,7 @@ import random
 import os
 
 import utils
-from utils import read_file, generate_random_boolean_values, input_choice
+from utils import read_file, generate_random_boolean_values, get_args
 
 
 # Controllore ammissibilità parametri
@@ -103,16 +103,16 @@ def generate_component(directory):
 
 
 def main():
-    args = utils.get_args()
+    args = get_args()
 
     if args.agent:
         generate_component("agent")
         print("Agente generato")
     if args.env:
-        print("Ambiente generato")
         generate_component("environment")
+        print("Ambiente generato")
     if not args.agent and not args.env:
-        print("Nessun parametro fornito. Usa -a e/o -e per generare.")
+        print("Nessun parametro fornito. Usa -a e/o -e per generare RBN.")
 
 
 if __name__ == "__main__":
