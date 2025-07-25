@@ -137,7 +137,7 @@ def main():
         simulate_entity("environment")
         print("Avvenuta simulazione ambiente")
     if not args.agent and not args.env:
-        print("Nessun parametro fornito. Usa -a e/o -e per generare le condizioni iniziali.")
+        print("Nessun parametro fornito. Usa -a e/o -e per simulare RBN.")
 
 
 if __name__ == "__main__":

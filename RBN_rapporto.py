@@ -122,7 +122,7 @@ def main():
         rbn_rapporto("environment")
         print("Rapporto attrattori ambiente calcolato")
     if not args.agent and not args.env:
-        print("Nessun parametro fornito. Usa -a e/o -e per generare le condizioni iniziali.")
+        print("Nessun parametro fornito. Usa -a e/o -e per calcolare il rapporto degli attrattori.")
 
 
 if __name__=="__main__":
