@@ -48,9 +48,6 @@ def simulate_steps_mode3(n_steps, graph, init_condition, finmax):
             periodo = len(states) - states.index(state) # Numero di stati che si ripetono
             steps_attrattore = len(states) - periodo # Numero di passi fatti per trovare l'attrattore
 
-            print(periodo)
-            print(steps_attrattore)
-
             lista_attrattore = []
 
             for i in range(periodo):
