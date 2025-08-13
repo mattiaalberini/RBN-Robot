@@ -129,7 +129,10 @@ def main():
         benessere = round(calculate_benessere(states_condition, omega, essenziali), 10)
         benessere_list.append(benessere)
 
-        print("Benessere: " + str(benessere))
+        if benessere == 0:
+            print("Benessere: 0")
+        else:
+            print("Benessere: " + str(benessere))
 
     print_benessere("benessere_agent.txt", benessere_list)
 
