@@ -103,7 +103,7 @@ def calculate_benessere(states, omega, essenziali):
 def print_benessere(file_name, benessere_list):
     with open(file_name, "w") as file:
         for benessere in benessere_list:
-            file.write(f"{benessere}\n")
+            file.write(f"{benessere:.10f}\n")
 
 
 def main():
@@ -128,11 +128,7 @@ def main():
 
         benessere = round(calculate_benessere(states_condition, omega, essenziali), 10)
         benessere_list.append(benessere)
-
-        if benessere == 0:
-            print("Benessere: 0")
-        else:
-            print("Benessere: " + str(benessere))
+        print(f"Benessere: {benessere:.10f}")
 
     print_benessere("benessere_agent.txt", benessere_list)
 
