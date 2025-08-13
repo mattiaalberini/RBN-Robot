@@ -1,8 +1,8 @@
-n_steps: 20
-usare agente già presente: N
-usare condini agente già presenti: N
-usare ambiente già presente: N
-usare condini ambiente già presenti: N
+n_steps: 200
+usare agente già presente: S
+usare condini agente già presenti: S
+usare ambiente già presente: S
+usare condini ambiente già presenti: S
 orologio agente: 4
 orologio ambiente: 6
 soglia sensori: 0.5
@@ -11,7 +11,7 @@ ELENCO EFFETTORI (ID NODO AGENTE - ID NODO AMBIENTE)
 2 	14
 13	3
 ELENCO SENSORI (ID NODO AGENTE - ID NODO AMBIENTE)
-12  	15
+12  15
 1	0
 2  	12
 mode: 2
