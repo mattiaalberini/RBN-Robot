@@ -1,91 +1,91 @@
 n_genes: 30
 gene: 0
-lista ingressi (3): 1 17 4
-uscite (8): 1 1 1 1 0 0 0 0
+lista ingressi (2): 8 25
+uscite (4): 1 0 1 1
 gene: 1
-lista ingressi (3): 8 7 12
-uscite (8): 0 0 1 0 0 0 1 0
+lista ingressi (4): 11 16 29 9
+uscite (16): 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 gene: 2
-lista ingressi (4): 20 23 29 3
-uscite (16): 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+lista ingressi (4): 24 16 21 14
+uscite (16): 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0
 gene: 3
-lista ingressi (2): 15 10
-uscite (4): 0 0 1 1
+lista ingressi (3): 25 27 7
+uscite (8): 0 0 1 0 0 0 0 0
 gene: 4
-lista ingressi (3): 3 25 21
-uscite (8): 0 1 0 1 0 0 0 1
+lista ingressi (4): 8 25 0 23
+uscite (16): 0 1 0 0 1 0 0 0 0 0 0 1 0 0 0 0
 gene: 5
-lista ingressi (4): 2 1 19 8
-uscite (16): 0 0 0 1 0 0 0 0 0 1 0 1 1 0 0 0
+lista ingressi (4): 20 8 23 15
+uscite (16): 0 1 0 0 0 1 0 1 0 1 0 0 0 0 1 0
 gene: 6
-lista ingressi (3): 29 2 14
-uscite (8): 0 0 0 0 0 0 0 0
+lista ingressi (3): 14 10 12
+uscite (8): 0 1 1 0 0 0 1 1
 gene: 7
-lista ingressi (3): 28 2 10
-uscite (8): 0 0 0 1 0 0 0 0
+lista ingressi (3): 27 8 3
+uscite (8): 0 0 1 0 0 0 0 1
 gene: 8
-lista ingressi (4): 12 24 2 7
-uscite (16): 0 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0
+lista ingressi (2): 18 23
+uscite (4): 1 1 0 1
 gene: 9
-lista ingressi (3): 24 28 25
+lista ingressi (3): 12 24 13
 uscite (8): 0 1 1 0 0 0 0 0
 gene: 10
-lista ingressi (3): 1 4 27
-uscite (8): 0 0 0 1 0 0 0 0
+lista ingressi (3): 6 27 23
+uscite (8): 0 0 0 1 1 0 0 0
 gene: 11
-lista ingressi (4): 22 24 23 25
-uscite (16): 0 0 0 0 1 0 0 0 0 1 1 0 0 0 0 0
+lista ingressi (2): 19 8
+uscite (4): 1 0 1 1
 gene: 12
-lista ingressi (4): 27 7 13 11
-uscite (16): 0 1 0 0 1 0 0 0 0 0 0 0 0 0 0 0
+lista ingressi (2): 8 20
+uscite (4): 0 1 0 0
 gene: 13
-lista ingressi (3): 4 6 9
-uscite (8): 0 0 1 0 0 1 0 0
+lista ingressi (3): 9 3 4
+uscite (8): 0 0 0 1 1 0 0 1
 gene: 14
-lista ingressi (4): 19 27 8 21
-uscite (16): 1 1 0 0 0 0 1 0 0 0 0 0 0 0 0 0
-gene: 15
-lista ingressi (4): 1 17 2 26
-uscite (16): 0 1 1 0 0 0 0 0 0 0 1 1 0 0 0 0
-gene: 16
-lista ingressi (3): 28 0 19
-uscite (8): 0 0 0 0 0 0 1 1
-gene: 17
-lista ingressi (3): 13 8 24
-uscite (8): 1 0 1 0 0 0 0 0
-gene: 18
-lista ingressi (3): 16 11 10
-uscite (8): 0 0 0 0 0 1 1 0
-gene: 19
-lista ingressi (3): 24 13 26
-uscite (8): 0 1 1 0 0 0 1 0
-gene: 20
-lista ingressi (4): 23 22 28 18
-uscite (16): 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0
-gene: 21
-lista ingressi (2): 18 11
-uscite (4): 0 1 1 1
-gene: 22
-lista ingressi (4): 17 28 21 3
-uscite (16): 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0
-gene: 23
-lista ingressi (3): 16 12 10
+lista ingressi (3): 21 13 16
 uscite (8): 0 1 0 0 0 0 0 0
+gene: 15
+lista ingressi (2): 18 21
+uscite (4): 1 1 1 1
+gene: 16
+lista ingressi (4): 3 23 2 5
+uscite (16): 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 0
+gene: 17
+lista ingressi (2): 23 25
+uscite (4): 0 1 1 1
+gene: 18
+lista ingressi (2): 6 13
+uscite (4): 1 0 0 0
+gene: 19
+lista ingressi (4): 14 21 17 5
+uscite (16): 1 0 1 1 0 0 0 0 0 0 0 1 0 0 0 0
+gene: 20
+lista ingressi (4): 16 23 4 25
+uscite (16): 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0
+gene: 21
+lista ingressi (4): 23 0 4 25
+uscite (16): 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1
+gene: 22
+lista ingressi (2): 29 2
+uscite (4): 1 0 1 0
+gene: 23
+lista ingressi (4): 11 10 26 0
+uscite (16): 1 0 0 1 0 1 0 0 0 0 0 0 0 1 0 0
 gene: 24
-lista ingressi (3): 1 8 0
-uscite (8): 0 0 0 0 1 0 0 1
+lista ingressi (3): 2 0 6
+uscite (8): 1 0 0 1 1 1 0 0
 gene: 25
-lista ingressi (3): 3 26 15
-uscite (8): 0 0 0 0 0 0 0 0
+lista ingressi (3): 27 23 22
+uscite (8): 0 0 0 1 0 0 0 0
 gene: 26
-lista ingressi (2): 11 14
-uscite (4): 0 0 0 0
+lista ingressi (4): 27 10 19 20
+uscite (16): 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0
 gene: 27
-lista ingressi (4): 16 9 28 5
-uscite (16): 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+lista ingressi (3): 0 2 18
+uscite (8): 0 0 0 0 0 0 0 0
 gene: 28
-lista ingressi (4): 25 20 13 2
-uscite (16): 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 0
+lista ingressi (3): 26 22 1
+uscite (8): 1 0 0 0 0 1 1 0
 gene: 29
-lista ingressi (2): 9 12
-uscite (4): 0 1 0 1
+lista ingressi (3): 15 25 24
+uscite (8): 0 0 0 1 0 1 0 0

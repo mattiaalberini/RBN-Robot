@@ -1,5 +1,5 @@
-omega: 2
+omega: 4
 ELENCO NODI ESSENZIALI (ID NODO AGENTE - VALORE IDEALE)
 1  0.0
-3  1.0
+3  0.0
 20  0.0
