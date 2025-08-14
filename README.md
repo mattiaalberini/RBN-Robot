@@ -50,7 +50,7 @@ Il valore del benessere per ogni condizione iniziale, viene salvato nel file `be
 ## Gestore interazione agente-ambiente e calcolo benessere
 
 **`benessere_interaction_simulator.py`** gestisce l'interazione agente-ambiente e calcola il benessere a seguito della modifica delle funzioni booleane dei nodi essenziali dell'agente, letti dal file `input_benessere.txt`.
-Si basa sui parametri forniti dal file `benessere_interaction_simulator_input.txt`, dove viene specificato il numero di interazione da effettuare e la modalità:
+Si basa sui parametri forniti dal file `benessere_interaction_simulator_input.txt`, dove viene specificato il numero di interazioni da effettuare e la modalità:
 - **mode = a**: usa sempre le stesse condizioni iniziali
 - **mode = b**: le nuove condizioni iniziali saranno l'ultimo stato in cui mi trovavo nella precedente interazione
 
