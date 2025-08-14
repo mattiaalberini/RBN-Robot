@@ -8,13 +8,18 @@ Il file **`grafo_default.txt`** contiene il grafo generato.
 **`generator_initconditions.py`** genera le **condizioni iniziali** basandosi sui parametri forniti da **`input_gen_cond.txt`**. \
 Il file **`cond_default.txt`** contiene le condizioni iniziali generate.
 
-
 ## Simulatore RBN
 
 **`simulator.py`** simula il comportamento di una RBN partendo dalle condizioni iniziali, basandosi sui parametri forniti da **`input_motore.txt`**. \
 Il risultato delle simulazioni viene stampato nel file **`output_motore.txt`**. La scelta del formato dell'output dipende dal valore del parametro *mode*:
 - **mode = 1**: stampa solo lo stato finale
 - **mode = 2**: stampa tutti gli stati passo per passo
+- **mode = 3**: stampa il record maggiore dell'attrattore, il periodo e quanti passi sono stati necessari per trovarlo
+
+## Rapporto attrattori
+
+**`RBN_rapporto.py`** indica quante volte è presente un record (l'attrattore) nel file **`output_motore.txt`**, generato in *mode 2*, e la sua percentuale di presenza.
+Il risultato viene scritto nel file **`output_motore_rapporto.txt`**.
 
 ## Simulatore interazione agente-ambiente
 
