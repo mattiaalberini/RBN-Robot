@@ -36,22 +36,26 @@ def simulate_steps_mode3(n_steps, graph, init_condition, finmax):
     # Lista degli stati passo per passo
     states = [state]
 
+    # Contatore stati rimossi
+    c_rimossi = 0
+
     for s in range(n_steps - 1):
         # Se il numero di stati in memoria è grande come finmax, rimuovo il primo elemento
-        if len(states) == finmax:
-            state.pop(0)
+        if len(states) > finmax:
+            states.pop(0)
+            c_rimossi += 1
 
         new_state = simulate_step(state, graph)
         state = new_state
 
         if state in states:
-            periodo = len(states) - states.index(state) # Numero di stati che si ripetono
-            steps_attrattore = len(states) - periodo # Numero di passi fatti per trovare l'attrattore
+            periodo = s+1 - c_rimossi - states.index(state) # Numero di stati che si ripetono
+            steps_attrattore = s+1 - periodo # Numero di passi fatti per trovare l'attrattore
 
             lista_attrattore = []
 
             for i in range(periodo):
-                lista_attrattore.append(states[steps_attrattore + i])
+                lista_attrattore.append(states[steps_attrattore - c_rimossi + i])
 
             attrattore = max(lista_attrattore)
 
@@ -60,7 +64,7 @@ def simulate_steps_mode3(n_steps, graph, init_condition, finmax):
         else:
             states.append(state)
 
-    return -1, -1, -1
+    return [0], -1, -1
 
 
 # Stampa mode 3
