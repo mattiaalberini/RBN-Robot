@@ -1,6 +1,6 @@
 ## Generatore RBN
 
-**`generator_RBN.py`** genera una **RBN** basandosi sui parametri forniti da **`input_generatore.txt`**. \
+**`generator_RBN.py`** genera una **RBN** basandosi sui parametri forniti da `input_generatore.txt`. \
 Il file **`grafo_default.txt`** contiene il grafo generato.
 
 ## Generatore condizioni iniziali
