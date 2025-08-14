@@ -42,6 +42,22 @@ Nei file `variazione_nodi.txt` vengono stampati i valori dei:
 Nelle colonne a sinistra sono stampati i valori attuali dei nodi, nelle colonne a destra vengono stampati i valori che i nodi avrebbero senza l'interazione agente-ambiente.
 
 ## Calcolo benessere
+
 **`benessere_calculator.py`** calcola il **benessere** dell'agente basandosi sui parametri forniti da `input_benessere.txt` e dagli stati dell'agente presenti nel file `output_interaction_mode3.txt`. 
 File generabile solamente simulando l'interazione agente-ambiente in *mode 2*. \
 Il valore del benessere per ogni condizione iniziale, viene salvato nel file `benessere_agent.txt`.
+
+## Gestore interazione agente-ambiente e calcolo benessere
+
+**`benessere_interaction_simulator.py`** gestisce l'interazione agente-ambiente e calcola il benessere a seguito della modifica delle funzioni booleane dei nodi essenziali dell'agente, letti dal file `input_benessere.txt`.
+Si basa sui parametri forniti dal file `benessere_interaction_simulator_input.txt`, dove viene specificato il numero di interazione da effettuare e la modalità:
+- **mode = a**: usa sempre le stesse condizioni iniziali
+- **mode = b**: le nuove condizioni iniziali saranno l'ultimo stato in cui mi trovavo nella precedente interazione
+
+Nel file `benessere_interaction_simulator_output.txt` viene salvato il benessere dell'agente, con le funzioni booleane dei nodi essenziali.
+
+Le condizioni iniziali di partenza sono scelte con la seguente procedura:
+1. Genero nuove condizioni iniziali
+2. Trovo gli attrattori
+3. Scelgo il primo record dal file `attrattori_espansi.txt`
+4. Modifico il file `input_benessere.txt` fissando omega=periodo, e il valore ideale dei nodi essenziali dal file `attrattori_espansi_media.txt`
