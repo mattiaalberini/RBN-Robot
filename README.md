@@ -18,8 +18,14 @@ Il risultato delle simulazioni viene stampato nel file **`output_motore.txt`**. 
 
 ## Rapporto attrattori
 
-**`RBN_rapporto.py`** indica quante volte è presente un record (l'attrattore) nel file **`output_motore.txt`**, generato in *mode 2*, e la sua percentuale di presenza.
+**`RBN_rapporto.py`** calcola quante volte è presente un record (l'attrattore) nel file **`output_motore.txt`**, generato in *mode 2*, e la sua percentuale di presenza.
 Il risultato viene scritto nel file **`output_motore_rapporto.txt`**.
+
+## Espandi attrattori
+
+**`espandi_attrattori.py`** genera 2 file usando come input **`output_motore_rapporto.txt`**:
+- **`attrattori_espansi.txt`**: mostra passo per passo come si sviluppa la RBN nel periodo
+- **`attrattori_espansi_media.txt`**: valori medi dei nodi nel periodo
 
 ## Simulatore interazione agente-ambiente
 
