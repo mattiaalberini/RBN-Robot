@@ -155,7 +155,7 @@ def main():
     rbn_agent_iniziale = copy.deepcopy(rbn_agent)
 
     # Genero le condizioni iniziali
-    #subprocess.run(["python", "generator_initconditions.py", "-a", "-e"])
+    subprocess.run(["python", "generator_initconditions.py", "-a", "-e"])
 
     # Simulo il comportamento dell'agente e dell'ambiente in mode 3
     subprocess.run(["python", "simulator.py", "-a", "-e"])
