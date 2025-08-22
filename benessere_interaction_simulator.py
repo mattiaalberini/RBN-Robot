@@ -46,22 +46,25 @@ def read_valori_ideali(file_name):
     return valori_ideali
 
 
-def read_nodi_essenziali(file_name):
-    essenziali = []
+def read_nodi_effettori(file_name):
+    effettori = []
 
     with open(file_name, "r", encoding="utf-8") as file:
         next_read = ""
 
         for line in file:
-            if "ESSENZIALI" in line:
-                next_read = "essenziali"
+            if ":" in line or "SENSORI" in line:
+                next_read = ""
+            elif "EFFETTORI" in line:
+                next_read = "effettori"
 
-            if next_read == "essenziali":
+            if next_read == "effettori":
                 parts = line.split()
                 if len(parts) == 2:
-                    essenziali.append(int(parts[0]))
+                    agent, env = map(int, parts)
+                    effettori.append(agent)
 
-    return essenziali
+    return effettori
 
 
 def check_valori(agent_periodo, env_periodo, valori_ideali, nodi_essenziali, agent_n_genes):
@@ -170,7 +173,9 @@ def main():
     agent_n_genes, agent_periodo, agent_init_condition = read_init_condition(os.path.join("agent", "attrattori_espansi.txt"))
     env_n_genes, env_periodo, env_init_condition = read_init_condition(os.path.join("environment", "attrattori_espansi.txt"))
     valori_ideali = read_valori_ideali(os.path.join("agent", "attrattori_espansi_media.txt"))
-    nodi_essenziali = read_nodi_essenziali("input_benessere.txt")
+    nodi_essenziali = read_nodi_effettori("input_AG_AMB.txt")
+
+    print(nodi_essenziali)
 
     check_valori(agent_periodo, env_periodo, valori_ideali, nodi_essenziali, agent_n_genes)
 
