@@ -67,12 +67,37 @@ def read_nodi_effettori(file_name):
     return effettori
 
 
-def check_valori(agent_periodo, env_periodo, valori_ideali, nodi_essenziali, agent_n_genes):
+def read_nodi_essenziali(file_name):
+    essenziali = []
+
+    with open(file_name, "r", encoding="utf-8") as file:
+        next_read = ""
+
+        for line in file:
+            if "ESSENZIALI" in line:
+                next_read = "essenziali"
+
+            if next_read == "essenziali":
+                parts = line.split()
+                if len(parts) == 2:
+                    essenziali.append(int(parts[0]))
+
+    return essenziali
+
+
+def check_valori(agent_periodo, env_periodo, valori_ideali, nodi_effettori, nodi_essenziali, agent_n_genes):
     if agent_periodo == 0 or env_periodo == 0:
         raise ValueError("Errore espansione attrattori!")
 
     if not valori_ideali:
         raise ValueError("Errore calcolo valori ideali!")
+
+    if not nodi_effettori:
+        raise ValueError("Nessun nodo effettore!")
+
+    for e in nodi_effettori:
+        if e > agent_n_genes:
+            raise ValueError("Numero nodo effettore non accettabile!")
 
     if not nodi_essenziali:
         raise ValueError("Nessun nodo essenziali!")
@@ -114,19 +139,19 @@ def ricalcola_uscite_graph(n_uscite, bias_per_ogni_k, k_minimo):
     return new_uscite
 
 
-def genera_funzioni_booleane(rbn_agent, nodi_essenziali, bias_per_ogni_k_agente, k_minimo):
-    new_funzioni_nodi_essenziali = []
+def genera_funzioni_booleane(rbn_agent, nodi_effettori, bias_per_ogni_k_agente, k_minimo):
+    new_funzioni_nodi_effettori = []
 
-    for e in nodi_essenziali:
+    for e in nodi_effettori:
         new_uscite = ricalcola_uscite_graph(len(rbn_agent[e]["uscite"]), bias_per_ogni_k_agente, k_minimo)
-        new_funzioni_nodi_essenziali.append(new_uscite)
+        new_funzioni_nodi_effettori.append(new_uscite)
 
-    return new_funzioni_nodi_essenziali
+    return new_funzioni_nodi_effettori
 
 
-def check_funzioni_booleane_uguali(benesseri, new_funzioni_nodi_essenziali):
+def check_funzioni_booleane_uguali(benesseri, new_funzioni_nodi_effettori):
     for b in benesseri:
-        if b["funzioni"] == new_funzioni_nodi_essenziali:
+        if b["funzioni"] == new_funzioni_nodi_effettori:
             return True
     return False
 
@@ -173,11 +198,10 @@ def main():
     agent_n_genes, agent_periodo, agent_init_condition = read_init_condition(os.path.join("agent", "attrattori_espansi.txt"))
     env_n_genes, env_periodo, env_init_condition = read_init_condition(os.path.join("environment", "attrattori_espansi.txt"))
     valori_ideali = read_valori_ideali(os.path.join("agent", "attrattori_espansi_media.txt"))
-    nodi_essenziali = read_nodi_effettori("input_AG_AMB.txt")
+    nodi_essenziali = read_nodi_essenziali("input_benessere.txt")
+    nodi_effettori = read_nodi_effettori("input_AG_AMB.txt")
 
-    print(nodi_essenziali)
-
-    check_valori(agent_periodo, env_periodo, valori_ideali, nodi_essenziali, agent_n_genes)
+    check_valori(agent_periodo, env_periodo, valori_ideali, nodi_effettori, nodi_essenziali, agent_n_genes)
 
     # Scrivo le nuove condizioni iniziali su file
     print_states(agent_n_genes, 1, agent_init_condition, os.path.join("agent", "cond_default.txt"))
@@ -197,24 +221,24 @@ def main():
         # Simulo interazione tra agente e ambiente -> calcola direttamente il benessere se in mode 2
         subprocess.run(["python", "agent_env_interaction.py", "-a", "-e"])
 
-        funzioni_nodi_essenziali = []
+        funzioni_nodi_effettori = []
         benessere = read_benessere("benessere_agent.txt")
 
         # Memorizzo il valore delle ultime funzioni booleane
-        for e in nodi_essenziali:
-            funzioni_nodi_essenziali.append(rbn_agent[e]["uscite"])
+        for e in nodi_effettori:
+            funzioni_nodi_effettori.append(rbn_agent[e]["uscite"])
 
-        iterazione = {"benessere": benessere, "funzioni": funzioni_nodi_essenziali}
+        iterazione = {"benessere": benessere, "funzioni": funzioni_nodi_effettori}
         benesseri.append(iterazione)
 
         # Genero nuove funzioni booleane
-        new_funzioni_nodi_essenziali = genera_funzioni_booleane(rbn_agent, nodi_essenziali, bias_per_ogni_k_agente, k_minimo)
+        new_funzioni_nodi_effettori = genera_funzioni_booleane(rbn_agent, nodi_effettori, bias_per_ogni_k_agente, k_minimo)
 
         c = 0
         ciclo_infinito = False
         # Controllo che non sia già stata generata una funzione booleana uguale
-        while check_funzioni_booleane_uguali(benesseri, new_funzioni_nodi_essenziali):
-            new_funzioni_nodi_essenziali = genera_funzioni_booleane(rbn_agent, nodi_essenziali, bias_per_ogni_k_agente, k_minimo)
+        while check_funzioni_booleane_uguali(benesseri, new_funzioni_nodi_effettori):
+            new_funzioni_nodi_effettori = genera_funzioni_booleane(rbn_agent, nodi_effettori, bias_per_ogni_k_agente, k_minimo)
             c += 1
             if c > 500:
                 ciclo_infinito = True
@@ -223,8 +247,8 @@ def main():
         if ciclo_infinito:
             break
 
-        for j, e in enumerate(nodi_essenziali):
-            rbn_agent[e]["uscite"] = new_funzioni_nodi_essenziali[j]
+        for j, e in enumerate(nodi_effettori):
+            rbn_agent[e]["uscite"] = new_funzioni_nodi_effettori[j]
 
         print_grafo(agent_n_genes, rbn_agent, "agent")
 
