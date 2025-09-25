@@ -1,0 +1,2 @@
+nome lanci: paolo
+n_lanci: 3
