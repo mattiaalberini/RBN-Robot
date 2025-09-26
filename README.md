@@ -70,5 +70,5 @@ Nel file `benessere_interaction_launcher_input.txt` è contenuto:
 - il numero di lanci da effettuare
 
 Nella cartella contenente i diversi lanci verrà creato il file `sintesi.xlsx` che contiene:
-- il benessere e la funzione booleana dei nodi effettori di ogni simulazione
+- il benessere e la funzione booleana dei nodi effettori di ogni simulazione, presi dal file `benessere_interaction_simulator_output.txt`
 - il profilo (il valore ideale dei nodi essenziali) di ogni lancio
