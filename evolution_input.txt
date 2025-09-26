@@ -1,0 +1,2 @@
+nome evoluzione: evo
+n massimo generazioni: 5
