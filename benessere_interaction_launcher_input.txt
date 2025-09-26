@@ -1,2 +1,2 @@
-nome lanci: paolo
-n_lanci: 3
+nome lanci: test
+n_lanci: 5
