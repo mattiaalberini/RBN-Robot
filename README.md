@@ -61,3 +61,14 @@ Le condizioni iniziali di partenza sono scelte con la seguente procedura:
 2. Trovo gli attrattori
 3. Scelgo il primo record dal file `attrattori_espansi.txt`
 4. Modifico il file `input_benessere.txt` fissando omega=periodo, e il valore ideale dei nodi essenziali dal file `attrattori_espansi_media.txt`
+
+## Lanci multipli di "Gestore interazione agente-ambiente e calcolo benessere"
+
+**`benessere_interaction_launcher.py`** lancia N volte il file `benessere_interaction_simulator.py` e memorizza i risultati dei vari lanci nella cartella `risultati_lanci`. \
+Nel file `benessere_interaction_launcher_input.txt` è contenuto:
+- il nome da dare alla cartella contenente i diversi lanci (se esiste già una cartella con lo stesso nome, aggiunge al nome della cartella un numero incrementale)
+- il numero di lanci da effettuare
+
+Nella cartella contenente i diversi lanci verrà creato il file `sintesi.xlsx` che contiene:
+- il benessere e la funzione booleana dei nodi effettori di ogni simulazione
+- il profilo (il valore ideale dei nodi essenziali) di ogni lancio
