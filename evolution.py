@@ -126,6 +126,8 @@ def generazione(dir_lanci, i):
     dir_lancio = os.path.join(os.getcwd(), dir_lanci, f"G{i}")
     os.mkdir(dir_lancio)
 
+    print("\n")
+
     # Eseguo la simulazione
     subprocess.run(["python", "benessere_interaction_simulator.py"])
     best_benessere, best_funzioni_booleane = find_best_benessere("benessere_interaction_simulator_output.txt")
@@ -159,7 +161,6 @@ def modifica_agente(best_funzioni_booleane, effettori_agente, effettori_ambiente
 
     write_nodi_effettori("input_AG_AMB.txt", effettori_agente, effettori_ambiente)
 
-    print(best_funzioni_booleane)
     for j, e in enumerate(effettori_agente):
         rbn_agent[e]["uscite"] = best_funzioni_booleane[j]
 
@@ -218,8 +219,6 @@ def main():
 
     dati.append(riga)
 
-    print(read_nodi_effettori("input_AG_AMB.txt"), "\n")
-
     i = 1
     while i < n_generazioni and not benessere_zero:
 
@@ -239,20 +238,16 @@ def main():
             riga.append(nodi_essenziali[n])
         riga.append("")
 
-        print(best_benessere, benessere_padre)
+        print(effettori_ambiente)
 
         if best_benessere < benessere_padre:
             benessere_padre = best_benessere
             funzioni_booleane_padre = best_funzioni_booleane
             effettori_ambiente_padre = effettori_ambiente
-            print("Figlio migliore!")
             migliore = "S"
         else:
             modifica_agente(funzioni_booleane_padre, effettori_agente, effettori_ambiente_padre, False)
-            print("Figlio peggiore!")
             migliore = "N"
-
-        print(read_nodi_effettori("input_AG_AMB.txt"), "\n")
 
         riga.append(migliore)
         dati.append(riga)
