@@ -159,6 +159,7 @@ def modifica_agente(best_funzioni_booleane, effettori_agente, effettori_ambiente
 
     write_nodi_effettori("input_AG_AMB.txt", effettori_agente, effettori_ambiente)
 
+    print(best_funzioni_booleane)
     for j, e in enumerate(effettori_agente):
         rbn_agent[e]["uscite"] = best_funzioni_booleane[j]
 
