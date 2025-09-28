@@ -180,7 +180,6 @@ def main():
 
     # Genero il padre (G0)
     best_benessere, best_funzioni_booleane = generazione(dir_lanci, 0)
-    modifica_agente(best_funzioni_booleane)
 
     if best_benessere == 0:
         benessere_zero = True
@@ -188,20 +187,19 @@ def main():
         benessere_zero = False
 
     i = 1
+    benessere_padre = best_benessere
+    funzioni_booleane_padre = best_funzioni_booleane
 
     while i < n_generazioni and not benessere_zero:
-
-
-
-        if best_benessere == 0:
-            benessere_zero = True
-
+        modifica_agente(best_funzioni_booleane)
+        best_benessere, best_funzioni_booleane = generazione(dir_lanci, i)
 
         if best_benessere < benessere_padre:
-
-
             benessere_padre = best_benessere
+            funzioni_booleane_padre = best_funzioni_booleane
             print("figlio migliore")
+        else:
+            modifica_agente(funzioni_booleane_padre)
 
         i += 1
 
