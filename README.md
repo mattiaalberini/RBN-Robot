@@ -79,3 +79,10 @@ Nella cartella contenente i diversi lanci verrà creato il file `sintesi.xlsx` c
 Legge i parametri forniti dal file `evolution_input.txt`:
 - il nome da dare alla cartella contenente le diverse generazioni (se esiste già una cartella con lo stesso nome, aggiunge al nome della cartella un numero incrementale)
 - il numero massimo di generazioni da creare
+
+Inizialmente genera il padre G0 (tramite `benessere_interaction_simulator.py`), dei tentativi fatti prende quello con il benessere migliore, quelle saranno le funzioni booleane del figlio G1. \
+Questo procedimento verrà effettuato ogni volta che viene generato un nuovo figlio. \
+Oltre alla modifica delle funzioni booleane, verranno cambiati i nodi dell'ambiente su cui hanno effetto i nodi effettori. \
+- se il nuovo figlio generato avrà un benessere migliore di quello del padre, la prossima generazione verrà creata a partire dal figlio.
+- se il nuovo figlio generato avrà un benessere peggiore di quello del padre, la prossima generazione verrà creata a partire dal padre. 
+La generazione termina quando il benessere diventa 0 oppure quando è stato raggiunto il limite massimo di generazioni imposto dal file di input.
