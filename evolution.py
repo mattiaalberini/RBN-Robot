@@ -126,8 +126,6 @@ def generazione(dir_lanci, i):
     dir_lancio = os.path.join(os.getcwd(), dir_lanci, f"G{i}")
     os.mkdir(dir_lancio)
 
-    print("\n")
-
     # Eseguo la simulazione
     subprocess.run(["python", "benessere_interaction_simulator.py"])
     best_benessere, best_funzioni_booleane = find_best_benessere("benessere_interaction_simulator_output.txt")
@@ -220,6 +218,7 @@ def main():
 
     i = 1
     while i < n_generazioni and not benessere_zero:
+        print("")
 
         effettori_agente, effettori_ambiente = read_nodi_effettori("input_AG_AMB.txt")
 
