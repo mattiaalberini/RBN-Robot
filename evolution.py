@@ -188,7 +188,6 @@ def main():
 
     benessere_padre = best_benessere
     funzioni_booleane_padre = best_funzioni_booleane
-    effettori_agente, effettori_ambiente = read_nodi_effettori("input_AG_AMB.txt")
     effettori_ambiente_padre = best_effettori_ambiente
 
     nodi_essenziali = read_valore_ideale_nodi_essenziali("input_benessere.txt")
@@ -196,7 +195,7 @@ def main():
     colonne = (
         ["Benessere"]
         + [""]
-        + ["Nodo ambiente"] * len(effettori_ambiente)
+        + ["Nodo ambiente"] * len(best_effettori_ambiente)
         + [""]
         + ["Funzione booleane"] * len(best_funzioni_booleane)
         + [""]
@@ -206,7 +205,7 @@ def main():
     )
 
     riga = [best_benessere, ""]
-    for e in effettori_ambiente:
+    for e in best_effettori_ambiente:
         riga.append(e)
     riga.append("")
     for f in best_funzioni_booleane:
@@ -222,8 +221,10 @@ def main():
     i = 1
     while i < n_generazioni and not benessere_zero:
 
-        modifica_agente(best_funzioni_booleane, effettori_agente, effettori_ambiente, True)
-        best_benessere, best_funzioni_booleane, effettori_ambiente = generazione(dir_lanci, i)
+        effettori_agente, effettori_ambiente = read_nodi_effettori("input_AG_AMB.txt")
+
+        modifica_agente(funzioni_booleane_padre, effettori_agente, effettori_ambiente, True)
+        best_benessere, best_funzioni_booleane, best_effettori_ambiente = generazione(dir_lanci, i)
 
         nodi_essenziali = read_valore_ideale_nodi_essenziali("input_benessere.txt")
 
@@ -238,19 +239,22 @@ def main():
             riga.append(nodi_essenziali[n])
         riga.append("")
 
-        print(effettori_ambiente)
-
         if best_benessere < benessere_padre:
             benessere_padre = best_benessere
             funzioni_booleane_padre = best_funzioni_booleane
             effettori_ambiente_padre = effettori_ambiente
             migliore = "S"
+            print("Tengo il figlio")
         else:
             modifica_agente(funzioni_booleane_padre, effettori_agente, effettori_ambiente_padre, False)
             migliore = "N"
+            print("Torno al padre")
 
         riga.append(migliore)
         dati.append(riga)
+
+        if best_benessere == 0:
+            benessere_zero = True
 
         i += 1
 
