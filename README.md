@@ -84,5 +84,6 @@ Inizialmente genera il padre G0 (tramite `benessere_interaction_simulator.py`), 
 Questo procedimento verrà effettuato ogni volta che viene generato un nuovo figlio. \
 Oltre alla modifica delle funzioni booleane, verranno cambiati i nodi dell'ambiente su cui hanno effetto i nodi effettori.
 - se il nuovo figlio generato avrà un benessere migliore di quello del padre, la prossima generazione verrà creata a partire dal figlio.
-- se il nuovo figlio generato avrà un benessere peggiore di quello del padre, la prossima generazione verrà creata a partire dal padre. \
+- se il nuovo figlio generato avrà un benessere peggiore di quello del padre, la prossima generazione verrà creata a partire dal padre.
+
 La generazione termina quando il benessere diventa 0 oppure quando è stato raggiunto il limite massimo di generazioni imposto dal file di input.
