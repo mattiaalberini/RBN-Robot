@@ -87,3 +87,10 @@ Genera il figlio con le nuove funzioni booleane, e in modo casuale, verranno cam
 - se il nuovo figlio generato avrà un benessere peggiore di quello del padre, la prossima generazione verrà ricreata a partire dal padre.
 
 La generazione termina quando il benessere diventa 0 oppure quando viene raggiunto il limite massimo di generazioni imposto dal file di input.
+
+Nella cartella contenente le diverse generazioni verrà creato il file `sintesi.xlsx` che contiene:
+- il benessere migliore tra quelli calcolati
+- i nodi dell'ambiente su cui agiscono i nodi effettori
+- la funzione booleana dei nodi effettori che hanno portato al benessere migliore
+- il profilo (il valore ideale dei nodi essenziali) 
+- S/N: indica se abbiamo trovato un figlio migliore del padre
