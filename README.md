@@ -82,7 +82,7 @@ Legge i parametri forniti dal file `evolution_input.txt`:
 
 Inizialmente genera il padre G0 (tramite `benessere_interaction_simulator.py`), dei tentativi fatti prende quello con il benessere migliore. Quelle saranno le funzioni booleane del figlio G1. \
 Questo procedimento verrà effettuato ogni volta che viene generato un nuovo figlio. \
-Oltre alla modifica delle funzioni booleane, verranno cambiati i nodi dell'ambiente su cui hanno effetto i nodi effettori.
+Genera il figlio con le funzioni booleane, e in modo casuale, verranno cambiati i nodi dell'ambiente su cui agiscono i nodi effettori.
 - se il nuovo figlio generato avrà un benessere migliore di quello del padre, la prossima generazione verrà creata a partire dal figlio.
 - se il nuovo figlio generato avrà un benessere peggiore di quello del padre, la prossima generazione verrà creata a partire dal padre.
 
