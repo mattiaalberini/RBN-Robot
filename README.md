@@ -88,7 +88,7 @@ Genera il figlio con le nuove funzioni booleane, e in modo casuale, verranno cam
 
 La generazione termina quando il benessere diventa 0 oppure quando viene raggiunto il limite massimo di generazioni imposto dal file di input.
 
-Nella cartella contenente le diverse generazioni verrà creato il file `sintesi.xlsx` che contiene:
+Nella cartella contenente le diverse generazioni verrà creato il file `sintesi.xlsx` (ogni riga equivale a una generazione) che contiene:
 - il benessere migliore tra quelli calcolati
 - i nodi dell'ambiente su cui agiscono i nodi effettori
 - la funzione booleana dei nodi effettori che hanno portato al benessere migliore
