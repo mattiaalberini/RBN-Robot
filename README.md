@@ -86,4 +86,4 @@ Genera il figlio con le nuove funzioni booleane, e in modo casuale, verranno cam
 - se il nuovo figlio generato avrà un benessere migliore di quello del padre, la prossima generazione verrà creata a partire dal figlio.
 - se il nuovo figlio generato avrà un benessere peggiore di quello del padre, la prossima generazione verrà ricreata a partire dal padre.
 
-La generazione termina quando il benessere diventa 0 oppure quando è stato raggiunto il limite massimo di generazioni imposto dal file di input.
+La generazione termina quando il benessere diventa 0 oppure quando viene raggiunto il limite massimo di generazioni imposto dal file di input.
