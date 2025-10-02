@@ -69,6 +69,8 @@ Nel file `benessere_interaction_launcher_input.txt` è contenuto:
 - il nome da dare alla cartella contenente i diversi lanci (se esiste già una cartella con lo stesso nome, aggiunge al nome della cartella un numero incrementale)
 - il numero di lanci da effettuare
 
+Prima di ogni lancio esegue `agent_env_generator.py`, che, leggendo il file di input `agent_env_generator_input.txt`, eventualmente ricrea le RBN e le condizioni iniziali.
+
 Nella cartella contenente i diversi lanci verrà creato il file `sintesi.xlsx` che contiene:
 - il benessere e la funzione booleana dei nodi effettori di ogni simulazione, presi dal file `benessere_interaction_simulator_output.txt`
 - il profilo (il valore ideale dei nodi essenziali) di ogni lancio
