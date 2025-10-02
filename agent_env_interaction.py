@@ -37,18 +37,6 @@ def read_file(file_name):
     return parameters_app
 
 
-# Controllore ammissibilità parametri
-def check_parameters(use_agent_RBN, use_agent_condini, use_env_RBN, use_env_condini):
-    if use_agent_RBN != "S" and use_agent_RBN != "N":
-        raise ValueError("'usare agente già presente' diverso da 'S' o 'N'")
-    if use_agent_condini != "S" and use_agent_condini != "N":
-        raise ValueError("'usare condini agente già presenti' diverso da 'S' o 'N'")
-    if use_env_RBN != "S" and use_env_RBN != "N":
-        raise ValueError("'usare ambiente già presente' diverso da 'S' o 'N'")
-    if use_env_condini != "S" and use_env_condini != "N":
-        raise ValueError("'usare condini ambiente già presenti' diverso da 'S' o 'N'")
-
-
 # Controllore ammissibilità condizioni iniziali
 def check_ncond(agent_ncond, env_ncond):
     # Agente e ambiente devono avere lo stesso numero di condizioni iniziali
@@ -248,11 +236,6 @@ def main():
 
     parameters = read_file("input_AG_AMB.txt")
 
-    use_agent_RBN = parameters["usare agente già presente"]
-    use_agent_condini = parameters["usare condini agente già presenti"]
-    use_env_RBN = parameters["usare ambiente già presente"]
-    use_env_condini = parameters["usare condini ambiente già presenti"]
-
     tot_steps = int(parameters["n_steps"])
     agent_step = int(parameters["orologio agente"])
     env_step = int(parameters["orologio ambiente"])
@@ -267,17 +250,6 @@ def main():
 
     # Mode
     mode = int(parameters["mode"])
-
-    check_parameters(use_agent_RBN, use_agent_condini, use_env_RBN, use_env_condini)
-
-    if use_agent_RBN == "N":
-        subprocess.run(["python", "generator_RBN.py", "-a"])
-    if use_agent_condini == "N":
-        subprocess.run(["python", "generator_initconditions.py", "-a"])
-    if use_env_RBN == "N":
-        subprocess.run(["python", "generator_RBN.py", "-e"])
-    if use_env_condini == "N":
-        subprocess.run(["python", "generator_initconditions.py", "-e"])
 
     agent_num_genes, agent_rbn = read_graph(os.path.join("agent", "grafo_default.txt"))
     env_num_genes, env_rbn = read_graph(os.path.join("environment", "grafo_default.txt"))
