@@ -303,6 +303,8 @@ def main():
     # Mode 1: stampo solo stato finale
     if mode == 1:
         for c in range(agent_ncond):
+            print("Condizione iniziale n:", c+1)
+
             for x in effettori:
                 effettori_old_new_val[effettori[x]].append({"old": -1, "new": -1})
             for x in sensori:
@@ -316,6 +318,8 @@ def main():
     # Mode 2: stampo tutti gli stati
     elif mode == 2:
         for c in range(agent_ncond):
+            print("Condizione iniziale n:", c+1)
+
             for x in effettori:
                 effettori_old_new_val[effettori[x]].append({"old": -1, "new": -1})
             for x in sensori:
@@ -336,11 +340,14 @@ def main():
             print_states(agent_num_genes, agent_ncond, agent_final_states_mode3, os.path.join("agent", "output_interaction_mode3.txt"))
             print_states(env_num_genes, env_ncond, env_final_states_mode3, os.path.join("environment", "output_interaction_mode3.txt"))
 
+        print("")
         subprocess.run(["python", "benessere_calculator.py"])
 
     # Mode 3: stampo ogni stato al cambiamento
     elif mode == 3:
         for c in range(agent_ncond):
+            print("Condizione iniziale n:", c+1)
+
             for x in effettori:
                 effettori_old_new_val[effettori[x]].append({"old": -1, "new": -1})
             for x in sensori:
@@ -356,6 +363,7 @@ def main():
         print_states(agent_num_genes, agent_ncond, agent_final_states, os.path.join("agent", "output_interaction_mode3.txt"))
         print_states(env_num_genes, env_ncond, env_final_states, os.path.join("environment", "output_interaction_mode3.txt"))
 
+        print("")
         subprocess.run(["python", "benessere_calculator.py"])
 
 
