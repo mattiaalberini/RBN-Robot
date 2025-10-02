@@ -1,0 +1,4 @@
+usare agente già presente: N
+usare condini agente già presenti: N
+usare ambiente già presente: N
+usare condini ambiente già presenti: N
