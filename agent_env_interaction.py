@@ -312,7 +312,6 @@ def main():
             print_states(agent_num_genes, agent_ncond, agent_final_states_mode3, os.path.join("agent", "output_interaction_mode3.txt"))
             print_states(env_num_genes, env_ncond, env_final_states_mode3, os.path.join("environment", "output_interaction_mode3.txt"))
 
-        print("")
         subprocess.run(["python", "benessere_calculator.py"])
 
     # Mode 3: stampo ogni stato al cambiamento
@@ -335,7 +334,6 @@ def main():
         print_states(agent_num_genes, agent_ncond, agent_final_states, os.path.join("agent", "output_interaction_mode3.txt"))
         print_states(env_num_genes, env_ncond, env_final_states, os.path.join("environment", "output_interaction_mode3.txt"))
 
-        print("")
         subprocess.run(["python", "benessere_calculator.py"])
 
 
