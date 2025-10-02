@@ -1,8 +1,8 @@
-n_nodi: 30
-k_minimo:  2
-k_massimo: 4
-probabilità_k: 0.2  0.5  0.3
-bias_per_ogni_k: 0.5  0.21  0.14
+n_nodi: 100
+k_minimo:  3
+k_massimo: 3
+probabilità_k: 1
+bias_per_ogni_k: 0.21
 seme: 0
 
 
