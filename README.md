@@ -27,6 +27,10 @@ Il risultato viene scritto nel file `output_motore_rapporto.txt`.
 - `attrattori_espansi.txt`: mostra passo per passo come si sviluppa la RBN nel periodo
 - `attrattori_espansi_media.txt`: valori medi dei nodi nel periodo
 
+## Generatore interazione agente-ambiente
+
+**`agent_env_generator.py`** genera le RBN e le condizioni iniziali dell'agente e dell'ambiente a seconda dei parametri forniti nel file `agent_env_generator_input.txt`.
+
 ## Simulatore interazione agente-ambiente
 
 **`agent_env_interaction.py`** simula il comportamento di due RBN (**agente** e **ambiente**) che interagiscono tra loro, basandosi sui parametri forniti da `input_AG_AMB.txt`. \
