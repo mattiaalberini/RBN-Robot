@@ -64,6 +64,9 @@ def main():
         dir_lancio = os.path.join(os.getcwd(), dir_lanci, f"L{i}")
         os.mkdir(dir_lancio)
 
+        # Creo nuove RBN e condizioni iniziali se specificato
+        subprocess.run(["python", "agent_env_generator.py"])
+
         # Eseguo la simulazione
         subprocess.run(["python", "benessere_interaction_simulator.py"])
 
