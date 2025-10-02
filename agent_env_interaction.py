@@ -1,6 +1,7 @@
 import os
 import subprocess
 
+import benessere_calculator
 from utils import read_graph, read_initconditions, print_states, simulate_step
 
 
@@ -35,6 +36,40 @@ def read_file(file_name):
 
 
     return parameters_app
+
+# Controlla che i nodi effettori/sensori/essenziali dell'agente siano tutti diversi
+def check_nodi_agent(effettori, sensori, essenziali):
+    effettori_agent, sensori_agent, essenziali_agent = [], [], []
+
+    for x in effettori:
+        effettori_agent.append(x)
+
+    for x in sensori:
+        sensori_agent.append(sensori[x])
+
+    for x in essenziali:
+        essenziali_agent.append(x)
+
+    tutti_nodi = effettori_agent + sensori_agent + essenziali_agent
+
+    if len(tutti_nodi) != len(set(tutti_nodi)):
+        raise ValueError("Nodi agente ripetuti tra i nodi effettori/sensori/essenziali")
+
+
+# Controlla che i nodi effettori/sensori dell'ambiente siano tutti diversi
+def check_nodi_env(effettori, sensori):
+    effettori_env, sensori_env = [], []
+
+    for x in effettori:
+        effettori_env.append(effettori[x])
+
+    for x in sensori:
+        sensori_env.append(x)
+
+    tutti_nodi = effettori_env + sensori_env
+
+    if len(tutti_nodi) != len(set(tutti_nodi)):
+        raise ValueError("Nodi ambiente ripetuti tra i nodi effettori/sensori")
 
 
 # Controllore ammissibilità condizioni iniziali
@@ -250,6 +285,12 @@ def main():
 
     # Mode
     mode = int(parameters["mode"])
+
+    parameters_essenziali = benessere_calculator.read_file("input_benessere.txt")
+    # Controllo che i nodi effettori/sensori/essenziali dell'agente siano tutti diversi
+    check_nodi_agent(effettori, sensori, parameters_essenziali["essenziali"])
+    # Controllo che i nodi effettori/sensori dell'ambiente siano tutti diversi
+    # check_nodi_env(effettori, sensori)
 
     agent_num_genes, agent_rbn = read_graph(os.path.join("agent", "grafo_default.txt"))
     env_num_genes, env_rbn = read_graph(os.path.join("environment", "grafo_default.txt"))
