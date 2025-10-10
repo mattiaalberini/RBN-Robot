@@ -251,10 +251,15 @@ def main():
         riga.append("")
 
         if best_benessere <= benessere_padre:
+            if best_benessere == benessere_padre:
+                migliore = "N"
+            else:
+                migliore = "S"
+
             benessere_padre = best_benessere
             funzioni_booleane_padre = best_funzioni_booleane
             effettori_ambiente_padre = effettori_ambiente
-            migliore = "S"
+
             print("Tengo il figlio")
         else:
             modifica_agente(funzioni_booleane_padre, effettori_agente, effettori_ambiente_padre, False, sensori_ambiente)
