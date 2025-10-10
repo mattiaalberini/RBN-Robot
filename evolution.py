@@ -74,15 +74,18 @@ def find_best_benessere(file):
 def read_nodi_effettori(file_name):
     effettori = []
     effettori_ambiente = []
+    sensori_ambiente = [] # Nodi dell'ambiente su cui interagiscono i nodi sensori
 
     with open(file_name, "r", encoding="utf-8") as file:
         next_read = ""
 
         for line in file:
-            if ":" in line or "SENSORI" in line:
+            if ":" in line:
                 next_read = ""
             elif "EFFETTORI" in line:
                 next_read = "effettori"
+            elif "SENSORI" in line:
+                next_read = "sensori"
 
             if next_read == "effettori":
                 parts = line.split()
@@ -91,7 +94,13 @@ def read_nodi_effettori(file_name):
                     effettori.append(agent)
                     effettori_ambiente.append(env)
 
-    return effettori, effettori_ambiente
+            if next_read == "sensori":
+                parts = line.split()
+                if len(parts) == 2:
+                    agent, env = map(int, parts)
+                    sensori_ambiente.append(env)
+
+    return effettori, effettori_ambiente, sensori_ambiente
 
 
 def write_nodi_effettori(file_name, effettori_agente, effettori_ambiente):
@@ -139,20 +148,20 @@ def generazione(dir_lanci, i):
         if file.endswith(".txt") and os.path.isfile(os.path.join(os.getcwd(), file)):
             shutil.copy2(os.path.join(os.getcwd(), file), dir_lancio)
 
-    effettori_agente, effettori_ambiente = read_nodi_effettori("input_AG_AMB.txt")
+    effettori_agente, effettori_ambiente, sensori_ambiente = read_nodi_effettori("input_AG_AMB.txt")
 
     return best_benessere, best_funzioni_booleane, effettori_ambiente
 
 
 # Modifica le funzioni booleane dei nodi effettori dell'agente e il nodo dell'ambiente su cui agisce
-def modifica_agente(best_funzioni_booleane, effettori_agente, effettori_ambiente, new):
+def modifica_agente(best_funzioni_booleane, effettori_agente, effettori_ambiente, new, sensori_ambiente):
     agent_n_genes, rbn_agent = read_graph(os.path.join("agent", "grafo_default.txt"))
     env_n_genes, rbn_env = read_graph(os.path.join("environment", "grafo_default.txt"))
 
     if new:
         pos_nodo_effettore = random.randint(0, len(effettori_ambiente) - 1)  # Quale nodo effettore modificare
         new_nodo_ambiente = random.randint(0, int(env_n_genes) - 1)  # Quale nodo dell'ambiente deve toccare
-        while new_nodo_ambiente in effettori_ambiente:
+        while new_nodo_ambiente in effettori_ambiente or new_nodo_ambiente in sensori_ambiente:
             new_nodo_ambiente = random.randint(0, int(env_n_genes) - 1)
 
         effettori_ambiente[pos_nodo_effettore] = new_nodo_ambiente
@@ -220,9 +229,9 @@ def main():
     while i < n_generazioni and not benessere_zero:
         print("")
 
-        effettori_agente, effettori_ambiente = read_nodi_effettori("input_AG_AMB.txt")
+        effettori_agente, effettori_ambiente, sensori_ambiente = read_nodi_effettori("input_AG_AMB.txt")
 
-        modifica_agente(funzioni_booleane_padre, effettori_agente, effettori_ambiente, True)
+        modifica_agente(funzioni_booleane_padre, effettori_agente, effettori_ambiente, True, sensori_ambiente)
         best_benessere, best_funzioni_booleane, best_effettori_ambiente = generazione(dir_lanci, i)
 
         nodi_essenziali = read_valore_ideale_nodi_essenziali("input_benessere.txt")
@@ -238,14 +247,14 @@ def main():
             riga.append(nodi_essenziali[n])
         riga.append("")
 
-        if best_benessere < benessere_padre:
+        if best_benessere <= benessere_padre:
             benessere_padre = best_benessere
             funzioni_booleane_padre = best_funzioni_booleane
             effettori_ambiente_padre = effettori_ambiente
             migliore = "S"
             print("Tengo il figlio")
         else:
-            modifica_agente(funzioni_booleane_padre, effettori_agente, effettori_ambiente_padre, False)
+            modifica_agente(funzioni_booleane_padre, effettori_agente, effettori_ambiente_padre, False, sensori_ambiente)
             migliore = "N"
             print("Torno al padre")
 
