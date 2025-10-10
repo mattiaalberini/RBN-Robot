@@ -1,4 +1,4 @@
-usare agente già presente: S
-usare condini agente già presenti: S
-usare ambiente già presente: S
-usare condini ambiente già presenti: S
+usare agente già presente: N
+usare condini agente già presenti: N
+usare ambiente già presente: N
+usare condini ambiente già presenti: N
