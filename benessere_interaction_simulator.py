@@ -1,3 +1,4 @@
+import argparse
 import copy
 import os
 import subprocess
@@ -172,6 +173,10 @@ def read_last_state(file_name):
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Specifica se deve essere lanciato normalmente o se per l'evoluzione")
+    parser.add_argument("-e", "--evolution", action="store_true", help="Eseguito per l'evoluzione (non modifica condizioni iniziali e profilo)")
+    args = parser.parse_args()
+
     parameters = read_file("benessere_interaction_simulator_input.txt")
     n_iterazioni = int(parameters["n_iterazioni"])
     mode = parameters["mode"].lower()
@@ -182,17 +187,19 @@ def main():
 
     rbn_agent_iniziale = copy.deepcopy(rbn_agent)
 
-    # Genero le condizioni iniziali
-    subprocess.run(["python", "generator_initconditions.py", "-a", "-e"])
+    # Se viene lanciato dal file "evolution.py" non devo ricreare le condizioni iniziali e il profilo
+    if not args.evolution:
+        # Genero le condizioni iniziali
+        subprocess.run(["python", "generator_initconditions.py", "-a", "-e"])
 
-    # Simulo il comportamento dell'agente e dell'ambiente in mode 3
-    subprocess.run(["python", "simulator.py", "-a", "-e"])
+        # Simulo il comportamento dell'agente e dell'ambiente in mode 3
+        subprocess.run(["python", "simulator.py", "-a", "-e"])
 
-    # Trovo il rapporto degli attrattori
-    subprocess.run(["python", "RBN_rapporto.py", "-a", "-e"])
+        # Trovo il rapporto degli attrattori
+        subprocess.run(["python", "RBN_rapporto.py", "-a", "-e"])
 
-    # Espando gli attrattori
-    subprocess.run(["python", "espandi_attrattori.py", "-a", "-e"])
+        # Espando gli attrattori
+        subprocess.run(["python", "espandi_attrattori.py", "-a", "-e"])
 
     # Leggo dati precedentemente calcolati
     agent_n_genes, agent_periodo, agent_init_condition = read_init_condition(os.path.join("agent", "attrattori_espansi.txt"))
