@@ -2,5 +2,5 @@ n_nodi: 50
 k_minimo:  3
 k_massimo: 3
 probabilità_k: 1
-bias_per_ogni_k: 0.1
+bias_per_ogni_k: 0.5
 seme: 0

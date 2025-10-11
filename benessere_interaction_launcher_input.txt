@@ -1,2 +1,2 @@
-nome lanci: ordinato_0_1
+nome lanci: caotico_0_5
 n_lanci: 100
