@@ -68,7 +68,7 @@ def main():
         subprocess.run(["python", "agent_env_generator.py"])
 
         # Eseguo la simulazione
-        subprocess.run(["python", "benessere_interaction_simulator.py"])
+        subprocess.run(["python", "benessere_interaction_simulator.py", "-o", "4"])
 
         # Copio i file all'interno della cartella del relativo lancio
         shutil.copytree(os.path.join(os.getcwd(), "agent"), os.path.join(dir_lancio, "agent"), dirs_exist_ok=True)

@@ -108,9 +108,14 @@ def check_valori(agent_periodo, env_periodo, valori_ideali, nodi_effettori, nodi
             raise ValueError("Numero nodo essenziale non accettabile!")
 
 
-def write_input_benessere_file(file_name, agent_periodo, nodi_essenziali, valori_ideali):
+def check_omega(omega):
+    if omega <= 0 and omega != -1:
+        raise ValueError("Valore omega non accettabile!")
+
+
+def write_input_benessere_file(file_name, omega, nodi_essenziali, valori_ideali):
     with open(file_name, "w") as file:
-        file.write(f"omega: {agent_periodo}\n")
+        file.write(f"omega: {omega}\n")
         file.write("ELENCO NODI ESSENZIALI (ID NODO AGENTE - VALORE IDEALE)\n")
 
         for e in nodi_essenziali:
@@ -175,7 +180,11 @@ def read_last_state(file_name):
 def main():
     parser = argparse.ArgumentParser(description="Specifica se deve essere lanciato normalmente o se per l'evoluzione")
     parser.add_argument("-e", "--evolution", action="store_true", help="Eseguito per l'evoluzione (non modifica condizioni iniziali e profilo)")
+    parser.add_argument( "-o", "--omega", type=int, default=-1, help="Valore omega (opzionale, default = periodo attrattore)")
     args = parser.parse_args()
+
+    omega = args.omega
+    check_omega(omega)
 
     parameters = read_file("benessere_interaction_simulator_input.txt")
     n_iterazioni = int(parameters["n_iterazioni"])
@@ -214,8 +223,10 @@ def main():
     print_states(agent_n_genes, 1, agent_init_condition, os.path.join("agent", "cond_default.txt"))
     print_states(env_n_genes, 1, env_init_condition, os.path.join("environment", "cond_default.txt"))
 
-    # Scrivo il omega = periodo e il valore ideale dei nodi essenziali
-    write_input_benessere_file("input_benessere.txt", agent_periodo, nodi_essenziali, valori_ideali)
+    # Scrivo il omega = periodo e il valore ideale dei nodi essenziali solo se non è specificato come parametro
+    if omega == -1:
+        omega = agent_periodo
+    write_input_benessere_file("input_benessere.txt", omega, nodi_essenziali, valori_ideali)
 
     # Lettura parametri necessari per riscrivere le funzioni booleane
     parameters_rbn_generator = read_file(os.path.join("agent", "input_generatore.txt"))
