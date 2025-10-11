@@ -1,2 +1,2 @@
-nome lanci: critico_0_21
+nome lanci: ordinato_0_1
 n_lanci: 100
