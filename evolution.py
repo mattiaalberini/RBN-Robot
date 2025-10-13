@@ -137,9 +137,9 @@ def generazione(dir_lanci, i, calcola_profilo):
 
     # Eseguo la simulazione
     if calcola_profilo:
-        subprocess.run(["python", "benessere_interaction_simulator.py"]) # Ricalcola il profilo e le condizioni iniziali
+        subprocess.run(["python", "benessere_interaction_simulator.py", "-o", "4"]) # Ricalcola il profilo e le condizioni iniziali
     else:
-        subprocess.run(["python", "benessere_interaction_simulator.py", "-e"]) # Non ricalcola il profilo e le condizioni iniziali
+        subprocess.run(["python", "benessere_interaction_simulator.py", "-e", "-o", "4"]) # Non ricalcola il profilo e le condizioni iniziali
     best_benessere, best_funzioni_booleane = find_best_benessere("benessere_interaction_simulator_output.txt")
 
     # Copio i file all'interno della cartella del relativo lancio
