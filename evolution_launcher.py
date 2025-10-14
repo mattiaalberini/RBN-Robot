@@ -59,7 +59,7 @@ def delete_dir(path):
     shutil.rmtree(cartella)
 
 
-def create_excel(path):
+def create_excel(path, n_rilanci):
     cartella = Path(path)
 
     file_excel = sorted(cartella.rglob("*.xlsx"))
@@ -81,7 +81,15 @@ def create_excel(path):
 
     # Salva nel file Excel finale
     output = cartella / "sintesi.xlsx"
-    df_finale.to_excel(output, index=False)
+
+    info_extra =  ["", "num lanci benessere=0", n_rilanci]
+
+    with pd.ExcelWriter(output, engine="openpyxl") as writer:
+        # Scrivo le informazioni extra nella prima riga
+        pd.DataFrame([info_extra]).to_excel(writer, index=False, header=False, startrow=0, startcol=len(df_finale.columns))
+
+        # Scrivo il DataFrame principale partendo dalla riga 0
+        df_finale.to_excel(writer, index=False, startrow=0)
 
 
 def main():
@@ -144,7 +152,7 @@ def main():
     shutil.copytree(origine, destinazione, dirs_exist_ok=True)
 
     # Creo il file excel
-    create_excel(dir_lanci)
+    create_excel(dir_lanci, c_benessere_zero)
 
 
 if __name__ == "__main__":
