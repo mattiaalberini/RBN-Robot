@@ -64,18 +64,21 @@ def simulate_steps_mode3(n_steps, graph, init_condition, finmax):
         else:
             states.append(state)
 
-    return [0], -1, -1
+    return None, None, None
 
 
 # Stampa mode 3
 def print_mode3(list_attrattore, list_periodo, list_steps_attrattore, n_genes, n_cond, file_name):
     with open(file_name, "w") as file:
-        file.write(f"n_genes: {n_genes} n_cond: {n_cond}\n")
+        count_attrattori = sum(1 for x in list_attrattore if x is not None)
+
+        file.write(f"n_genes: {n_genes} n_cond: {count_attrattori}\n")
 
         for c in range(n_cond):
-            for a in list_attrattore[c]:
-                file.write(f"{a} ")
-            file.write(f"  {list_periodo[c]} {list_steps_attrattore[c]}\n")
+            if list_attrattore[c] is not None:
+                for a in list_attrattore[c]:
+                    file.write(f"{a} ")
+                file.write(f"  {list_periodo[c]} {list_steps_attrattore[c]}\n")
 
 
 def simulate_entity(directory):
