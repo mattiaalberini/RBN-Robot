@@ -48,6 +48,26 @@ def read_valore_ideale_nodi_essenziali(file_name):
     return nodi_essenziali
 
 
+# Conto il numero di attrattori: se uguale a 0 rigenero la RBN
+def attrattore_trovato(file_name):
+    # Leggo solo la prima riga del file
+    with open(file_name, "r") as f:
+        line = f.readline()
+
+    # Divide la riga in parti
+    parts = line.split()
+
+    # Trova il valore dopo "Attrattori:"
+    for i, p in enumerate(parts):
+        if p == "Attrattori:":
+            attrattori = int(parts[i + 1])
+
+            if attrattori != 0:
+                return True
+
+    return False
+
+
 def main():
     parameters = read_file("benessere_interaction_launcher_input.txt")
     nome_lanci = parameters["nome lanci"]
@@ -69,6 +89,12 @@ def main():
 
         # Eseguo la simulazione
         subprocess.run(["python", "benessere_interaction_simulator.py", "-o", "4"])
+
+        # Non ho trovato attrattori -> ripeto la simulazione
+        while not attrattore_trovato(os.path.join("agent","output_motore_rapporto.txt")) or not attrattore_trovato(os.path.join("environment","output_motore_rapporto.txt")):
+            print("Nessun attrattore trovato, rilancio!")
+            subprocess.run(["python", "agent_env_generator.py"])
+            subprocess.run(["python", "benessere_interaction_simulator.py", "-o", "4"])
 
         # Copio i file all'interno della cartella del relativo lancio
         shutil.copytree(os.path.join(os.getcwd(), "agent"), os.path.join(dir_lancio, "agent"), dirs_exist_ok=True)
