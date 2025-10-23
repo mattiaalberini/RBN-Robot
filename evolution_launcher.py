@@ -92,6 +92,26 @@ def create_excel(path, n_rilanci):
         df_finale.to_excel(writer, index=False, startrow=0)
 
 
+# Conto il numero di attrattori: se uguale a 0 rigenero la RBN
+def attrattore_trovato(file_name):
+    # Leggo solo la prima riga del file
+    with open(file_name, "r") as f:
+        line = f.readline()
+
+    # Divide la riga in parti
+    parts = line.split()
+
+    # Trova il valore dopo "Attrattori:"
+    for i, p in enumerate(parts):
+        if p == "Attrattori:":
+            attrattori = int(parts[i + 1])
+
+            if attrattori != 0:
+                return True
+
+    return False
+
+
 def main():
     parameters_evoluzione = read_file("evolution_input.txt")
     nome_evoluzione = parameters_evoluzione["nome evoluzione"]
@@ -115,23 +135,34 @@ def main():
 
         print(f"Lancio: {i}")
 
+        if i == 1:
+            app_nome_dir_evoluzione = nome_evoluzione
+        else:
+            app_nome_dir_evoluzione = nome_evoluzione + "_" + str(i - 1)
+
         # Creo nuove RBN e condizioni iniziali se specificato
         subprocess.run(["python", "agent_env_generator.py"])
 
         # Eseguo la simulazione
         subprocess.run(["python", "evolution.py"])
 
-        if i == 1:
-            app_nome_dir_evoluzione = nome_evoluzione
-        else:
-            app_nome_dir_evoluzione = nome_evoluzione + "_" + str(i - 1)
+        # Non ho trovato attrattori -> ripeto l'evoluzione
+        while not attrattore_trovato(os.path.join("agent", "output_motore_rapporto.txt")) or not attrattore_trovato(os.path.join("environment", "output_motore_rapporto.txt")):
+            print("Nessun attrattore trovato, rilancio!")
+
+            # Rimuovo la cartella del lancio senza attrattori
+            del_dir_path = os.path.join("risultati_evoluzione", app_nome_dir_evoluzione)
+            delete_dir(del_dir_path)
+
+            subprocess.run(["python", "agent_env_generator.py"])
+            subprocess.run(["python", "evolution.py"])
 
         # Controllo se in "risultati_evoluzione\nome_evoluzione" sono presenti solamente la cartella G0 e sintesi.xlsx
         # Se ci sono solamente questi due file vuol dire che il primo agente che ho generato ha dato subito benessere = 0
         first_benessere_is_zero = is_evolution_first_benessere_zero(app_nome_dir_evoluzione)
 
         if first_benessere_is_zero:
-            # Rimuovo la carta dell'evoluzione che ha prodotto subito un benessere = 0
+            # Rimuovo la cartella dell'evoluzione che ha prodotto subito un benessere = 0
             del_dir_path = os.path.join("risultati_evoluzione", app_nome_dir_evoluzione, "G0")
             delete_dir(del_dir_path)
             os.remove(os.path.join("risultati_evoluzione", app_nome_dir_evoluzione, "sintesi.xlsx"))
