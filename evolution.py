@@ -227,6 +227,7 @@ def main():
 
     benessere_padre = best_benessere
     funzioni_booleane_padre = best_funzioni_booleane
+    effettori_agente_padre = best_effettori_agente
     effettori_ambiente_padre = best_effettori_ambiente
 
     nodi_essenziali = read_valore_ideale_nodi_essenziali("input_benessere.txt")
@@ -295,11 +296,12 @@ def main():
 
             benessere_padre = best_benessere
             funzioni_booleane_padre = best_funzioni_booleane
+            effettori_agente_padre = effettori_agente
             effettori_ambiente_padre = effettori_ambiente
 
             print("Tengo il figlio")
         else:
-            modifica_agente(funzioni_booleane_padre, effettori_agente, effettori_ambiente_padre, False, sensori, sensori_ambiente, prob_mod_effettore, prob_mod_ambiente, nodi_essenziali)
+            modifica_agente(funzioni_booleane_padre, effettori_agente_padre, effettori_ambiente_padre, False, sensori, sensori_ambiente, prob_mod_effettore, prob_mod_ambiente, nodi_essenziali)
             migliore = "N"
             print("Torno al padre")
         riga.append(migliore)
