@@ -244,7 +244,6 @@ def main():
         + [""]
         + ["Migliore"]
     )
-    print(len(colonne))
 
     riga = [best_benessere, ""]
     for e in best_effettori_agente:
@@ -260,7 +259,6 @@ def main():
         riga.append(nodi_essenziali[n])
     riga.append("")
     riga.append("S")
-    print(len(riga))
 
     dati.append(riga)
 
@@ -304,7 +302,6 @@ def main():
             modifica_agente(funzioni_booleane_padre, effettori_agente, effettori_ambiente_padre, False, sensori, sensori_ambiente, prob_mod_effettore, prob_mod_ambiente, nodi_essenziali)
             migliore = "N"
             print("Torno al padre")
-        print(len(riga))
         riga.append(migliore)
         dati.append(riga)
 
