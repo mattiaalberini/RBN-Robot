@@ -10,6 +10,13 @@ from generator_RBN import print_grafo
 from utils import read_file, read_graph
 
 
+def check_parameters(prob_mod_effettore, prob_mod_ambiente):
+    if prob_mod_effettore < 0 or prob_mod_ambiente < 0:
+        raise ValueError("Probabilità inserita minore di 0")
+    if (prob_mod_effettore + prob_mod_ambiente) != 1:
+        raise ValueError("Somma probabilita_k diversa da 1")
+
+
 # Crea la cartella che conterrà le generazioni
 def crea_dir_generazioni(nome_evoluzione):
     if not os.path.exists("risultati_evoluzione"):
@@ -74,6 +81,7 @@ def find_best_benessere(file):
 def read_nodi_effettori(file_name):
     effettori = []
     effettori_ambiente = []
+    sensori = []
     sensori_ambiente = [] # Nodi dell'ambiente su cui interagiscono i nodi sensori
 
     with open(file_name, "r", encoding="utf-8") as file:
@@ -98,9 +106,10 @@ def read_nodi_effettori(file_name):
                 parts = line.split()
                 if len(parts) == 2:
                     agent, env = map(int, parts)
+                    sensori.append(agent)
                     sensori_ambiente.append(env)
 
-    return effettori, effettori_ambiente, sensori_ambiente
+    return effettori, effettori_ambiente, sensori, sensori_ambiente
 
 
 def write_nodi_effettori(file_name, effettori_agente, effettori_ambiente):
@@ -151,23 +160,38 @@ def generazione(dir_lanci, i, calcola_profilo, omega):
         if file.endswith(".txt") and os.path.isfile(os.path.join(os.getcwd(), file)):
             shutil.copy2(os.path.join(os.getcwd(), file), dir_lancio)
 
-    effettori_agente, effettori_ambiente, sensori_ambiente = read_nodi_effettori("input_AG_AMB.txt")
+    effettori_agente, effettori_ambiente, sensori, sensori_ambiente = read_nodi_effettori("input_AG_AMB.txt")
 
-    return best_benessere, best_funzioni_booleane, effettori_ambiente
+    return best_benessere, best_funzioni_booleane, effettori_agente, effettori_ambiente
 
 
 # Modifica le funzioni booleane dei nodi effettori dell'agente e il nodo dell'ambiente su cui agisce
-def modifica_agente(best_funzioni_booleane, effettori_agente, effettori_ambiente, new, sensori_ambiente):
+def modifica_agente(best_funzioni_booleane, effettori_agente, effettori_ambiente, new, sensori, sensori_ambiente, prob_mod_effettore, prob_mod_ambiente, nodi_essenziali):
     agent_n_genes, rbn_agent = read_graph(os.path.join("agent", "grafo_default.txt"))
     env_n_genes, rbn_env = read_graph(os.path.join("environment", "grafo_default.txt"))
 
-    if new:
+    if new: # new = True -> Nuova generazione, new = False -> Torno al padre
         pos_nodo_effettore = random.randint(0, len(effettori_ambiente) - 1)  # Quale nodo effettore modificare
-        new_nodo_ambiente = random.randint(0, int(env_n_genes) - 1)  # Quale nodo dell'ambiente deve toccare
-        while new_nodo_ambiente in effettori_ambiente or new_nodo_ambiente in sensori_ambiente:
-            new_nodo_ambiente = random.randint(0, int(env_n_genes) - 1)
 
-        effettori_ambiente[pos_nodo_effettore] = new_nodo_ambiente
+        # Decido se devo modificare il nodo effettore (0) oppure il nodo dell'ambiente su cui il nodo effettore agisce (1)
+        x = random.choices([0, 1], weights=[prob_mod_effettore, prob_mod_ambiente])[0]
+
+        if x == 0:
+            # Modifico il nodo effettore
+            print("Modifico il nodo effettore")
+            new_nodo_effettore = random.randint(0, int(agent_n_genes) - 1)  # Quale nodo effettore scegliere
+            while new_nodo_effettore in effettori_agente or new_nodo_effettore in sensori or new_nodo_effettore in nodi_essenziali:
+                new_nodo_effettore = random.randint(0, int(agent_n_genes) - 1)
+
+            effettori_agente[pos_nodo_effettore] = new_nodo_effettore
+        else:
+            # Modifico il nodo dell'ambiente su cui il nodo effettore agisce
+            print("Modifico il nodo dell'ambiente su cui il nodo effettore agisce")
+            new_nodo_ambiente = random.randint(0, int(env_n_genes) - 1)  # Quale nodo dell'ambiente deve toccare
+            while new_nodo_ambiente in effettori_ambiente or new_nodo_ambiente in sensori_ambiente:
+                new_nodo_ambiente = random.randint(0, int(env_n_genes) - 1)
+
+            effettori_ambiente[pos_nodo_effettore] = new_nodo_ambiente
 
     write_nodi_effettori("input_AG_AMB.txt", effettori_agente, effettori_ambiente)
 
@@ -182,6 +206,10 @@ def main():
     nome_evoluzione = parameters["nome evoluzione"]
     n_generazioni = int(parameters["n massimo generazioni"])
     omega = int(parameters.get("omega", -1))
+    prob_mod_effettore = float(parameters["probabilità_modifica_nodo_effettore"]) # Probabilità modifica nodo effettore
+    prob_mod_ambiente = float(parameters["probabilità_modifica_nodo_ambiente"]) # Probabilità modifica nodo ambiente su cui agisce l'effettore
+
+    check_parameters(prob_mod_effettore, prob_mod_ambiente)
 
     # Creo la cartella che conterrà gli N lanci
     dir_lanci = crea_dir_generazioni(nome_evoluzione)
@@ -190,7 +218,7 @@ def main():
     dati = []
 
     # Genero il padre (G0)
-    best_benessere, best_funzioni_booleane, best_effettori_ambiente = generazione(dir_lanci, 0, True, omega)
+    best_benessere, best_funzioni_booleane, best_effettori_agente, best_effettori_ambiente = generazione(dir_lanci, 0, True, omega)
 
     if best_benessere == 0:
         benessere_zero = True
@@ -206,6 +234,8 @@ def main():
     colonne = (
         ["Benessere"]
         + [""]
+        + ["Nodo effettore"] * len(best_effettori_agente)
+        + [""]
         + ["Nodo ambiente"] * len(best_effettori_ambiente)
         + [""]
         + ["Funzione booleane"] * len(best_funzioni_booleane)
@@ -214,8 +244,12 @@ def main():
         + [""]
         + ["Migliore"]
     )
+    print(len(colonne))
 
     riga = [best_benessere, ""]
+    for e in best_effettori_agente:
+        riga.append(e)
+    riga.append("")
     for e in best_effettori_ambiente:
         riga.append(e)
     riga.append("")
@@ -226,6 +260,7 @@ def main():
         riga.append(nodi_essenziali[n])
     riga.append("")
     riga.append("S")
+    print(len(riga))
 
     dati.append(riga)
 
@@ -233,14 +268,17 @@ def main():
     while i < n_generazioni and not benessere_zero:
         print("")
 
-        effettori_agente, effettori_ambiente, sensori_ambiente = read_nodi_effettori("input_AG_AMB.txt")
+        effettori_agente, effettori_ambiente, sensori, sensori_ambiente = read_nodi_effettori("input_AG_AMB.txt")
 
-        modifica_agente(funzioni_booleane_padre, effettori_agente, effettori_ambiente, True, sensori_ambiente)
-        best_benessere, best_funzioni_booleane, best_effettori_ambiente = generazione(dir_lanci, i, False, omega)
+        modifica_agente(funzioni_booleane_padre, effettori_agente, effettori_ambiente, True, sensori, sensori_ambiente, prob_mod_effettore, prob_mod_ambiente, nodi_essenziali)
+        best_benessere, best_funzioni_booleane, best_effettori_agente, best_effettori_ambiente = generazione(dir_lanci, i, False, omega)
 
         nodi_essenziali = read_valore_ideale_nodi_essenziali("input_benessere.txt")
 
         riga = [best_benessere, ""]
+        for e in effettori_agente:
+            riga.append(e)
+        riga.append("")
         for e in effettori_ambiente:
             riga.append(e)
         riga.append("")
@@ -263,10 +301,10 @@ def main():
 
             print("Tengo il figlio")
         else:
-            modifica_agente(funzioni_booleane_padre, effettori_agente, effettori_ambiente_padre, False, sensori_ambiente)
+            modifica_agente(funzioni_booleane_padre, effettori_agente, effettori_ambiente_padre, False, sensori, sensori_ambiente, prob_mod_effettore, prob_mod_ambiente, nodi_essenziali)
             migliore = "N"
             print("Torno al padre")
-
+        print(len(riga))
         riga.append(migliore)
         dati.append(riga)
 
