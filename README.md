@@ -72,6 +72,7 @@ Le condizioni iniziali di partenza sono scelte con la seguente procedura:
 Nel file `benessere_interaction_launcher_input.txt` è contenuto:
 - il nome da dare alla cartella contenente i diversi lanci (se esiste già una cartella con lo stesso nome, aggiunge al nome della cartella un numero incrementale)
 - il numero di lanci da effettuare
+- l'omega con cui il benessere deve essere calcolato
 
 Prima di ogni lancio esegue `agent_env_generator.py`, che, leggendo il file di input `agent_env_generator_input.txt`, eventualmente ricrea le RBN e le condizioni iniziali.
 
@@ -85,10 +86,13 @@ Nella cartella contenente i diversi lanci verrà creato il file `sintesi.xlsx` c
 Legge i parametri forniti dal file `evolution_input.txt`:
 - il nome da dare alla cartella contenente le diverse generazioni (se esiste già una cartella con lo stesso nome, aggiunge al nome della cartella un numero incrementale)
 - il numero massimo di generazioni da creare
+- l'omega con cui il benessere deve essere calcolato
+- la probabilità che a cambiare sia un nodo effettore
+- la probabilità che a cambiare sia il nodo dell'ambiente su cui agisce un nodo effettore
 
 Inizialmente genera il padre G0 (tramite `benessere_interaction_simulator.py`), dei tentativi fatti prende quello con il benessere migliore. Quelle saranno le funzioni booleane di partenza del figlio G1. \
 Questo procedimento verrà effettuato ogni volta che viene generato un nuovo figlio. \
-Genera il figlio con le nuove funzioni booleane, e in modo casuale, verranno cambiati i nodi dell'ambiente su cui agiscono i nodi effettori.
+Genera il figlio con le nuove funzioni booleane, e in modo casuale, verranno cambiati o i nodi dell'ambiente su cui agiscono i nodi effettori o i nodi effettori.
 - se il nuovo figlio generato avrà un benessere migliore o uguale a quello del padre, la prossima generazione verrà creata a partire dal figlio.
 - se il nuovo figlio generato avrà un benessere peggiore di quello del padre, la prossima generazione verrà ricreata a partire dal padre.
 
@@ -96,7 +100,17 @@ La generazione termina quando il benessere diventa 0 oppure quando viene raggiun
 
 Nella cartella contenente le diverse generazioni verrà creato il file `sintesi.xlsx` (ogni riga equivale a una generazione) che contiene:
 - il benessere migliore tra quelli calcolati
+- i nodi effettori
 - i nodi dell'ambiente su cui agiscono i nodi effettori
 - la funzione booleana dei nodi effettori che hanno portato al benessere migliore
 - il profilo (il valore ideale dei nodi essenziali) 
 - S/N: indica se abbiamo trovato un figlio migliore del padre
+
+## Lanci multipli di "Evoluzione agente"
+
+**`evolution_launcher.py`** lancia N volte il file `evolution.py` e memorizza i risultati dei vari lanci nella cartella `risultati_lanci_evoluzione`. \
+Nel file `evolution_launcher_input.txt` è contenuto:
+- il nome da dare alla cartella contenente i diversi lanci (se esiste già una cartella con lo stesso nome, aggiunge al nome della cartella un numero incrementale)
+- il numero di lanci da effettuare
+
+Nella cartella contenente i diversi lanci verrà creato il file `sintesi.xlsx` che contiene l'esito di tutte le evoluzioni eseguite.
