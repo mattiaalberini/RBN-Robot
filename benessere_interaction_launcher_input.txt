@@ -1,2 +1,3 @@
-nome lanci: caotico_0_5
-n_lanci: 100
+nome lanci: test
+n_lanci: 10
+omega: 4

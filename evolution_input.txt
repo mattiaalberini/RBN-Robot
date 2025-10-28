@@ -1,2 +1,5 @@
-nome evoluzione: evo
+nome evoluzione: test
 n massimo generazioni: 15
+omega: 4
+probabilità_modifica_nodo_effettore: 0.7
+probabilità_modifica_nodo_ambiente: 0.3

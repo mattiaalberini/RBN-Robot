@@ -1,2 +1,2 @@
-nome lanci evoluzione: critico_0_21
+nome lanci evoluzione: test
 n_lanci: 3

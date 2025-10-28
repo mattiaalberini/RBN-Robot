@@ -1,2 +1,2 @@
-n_iterazioni: 100
+n_iterazioni: 3
 mode: a

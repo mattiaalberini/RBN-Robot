@@ -4,9 +4,9 @@ orologio ambiente: 1
 soglia sensori: 0.5
 soglia effettori: 0.5
 ELENCO EFFETTORI (ID NODO AGENTE - ID NODO AMBIENTE)
-2 	    55
-33	    3
-46      89
+15	7
+48	9
+17	33
 ELENCO SENSORI (ID NODO AGENTE - ID NODO AMBIENTE)
 1       15
 12	    98
