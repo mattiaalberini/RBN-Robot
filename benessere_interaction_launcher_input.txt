@@ -1,3 +1,2 @@
 nome lanci: test
 n_lanci: 10
-omega: 4

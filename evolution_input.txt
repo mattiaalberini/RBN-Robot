@@ -1,5 +1,4 @@
-nome evoluzione: test
-n massimo generazioni: 15
-omega: 4
-probabilità_modifica_nodo_effettore: 0.7
-probabilità_modifica_nodo_ambiente: 0.3
+nome evoluzione: caotico_0_5
+n massimo generazioni: 200
+probabilità_modifica_nodo_effettore: 0.5
+probabilità_modifica_nodo_ambiente: 0.5

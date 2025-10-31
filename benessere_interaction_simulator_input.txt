@@ -1,2 +1,3 @@
-n_iterazioni: 3
+n_iterazioni: 2
+omega: 3
 mode: a

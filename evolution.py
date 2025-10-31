@@ -139,16 +139,16 @@ def write_nodi_effettori(file_name, effettori_agente, effettori_ambiente):
         f.writelines(new_righe)
 
 
-def generazione(dir_lanci, i, calcola_profilo, omega):
+def generazione(dir_lanci, i, calcola_profilo):
     # Creo la cartella della generazione
     dir_lancio = os.path.join(os.getcwd(), dir_lanci, f"G{i}")
     os.mkdir(dir_lancio)
 
     # Eseguo la simulazione
     if calcola_profilo:
-        subprocess.run(["python", "benessere_interaction_simulator.py", "-o", str(omega)]) # Ricalcola il profilo e le condizioni iniziali
+        subprocess.run(["python", "benessere_interaction_simulator.py"]) # Ricalcola il profilo e le condizioni iniziali
     else:
-        subprocess.run(["python", "benessere_interaction_simulator.py", "-e", "-o", str(omega)]) # Non ricalcola il profilo e le condizioni iniziali
+        subprocess.run(["python", "benessere_interaction_simulator.py", "-e"]) # Non ricalcola il profilo e le condizioni iniziali
     best_benessere, best_funzioni_booleane = find_best_benessere("benessere_interaction_simulator_output.txt")
 
     # Copio i file all'interno della cartella del relativo lancio
@@ -205,7 +205,6 @@ def main():
     parameters = read_file("evolution_input.txt")
     nome_evoluzione = parameters["nome evoluzione"]
     n_generazioni = int(parameters["n massimo generazioni"])
-    omega = int(parameters.get("omega", -1))
     prob_mod_effettore = float(parameters["probabilità_modifica_nodo_effettore"]) # Probabilità modifica nodo effettore
     prob_mod_ambiente = float(parameters["probabilità_modifica_nodo_ambiente"]) # Probabilità modifica nodo ambiente su cui agisce l'effettore
 
@@ -218,7 +217,7 @@ def main():
     dati = []
 
     # Genero il padre (G0)
-    best_benessere, best_funzioni_booleane, best_effettori_agente, best_effettori_ambiente = generazione(dir_lanci, 0, True, omega)
+    best_benessere, best_funzioni_booleane, best_effettori_agente, best_effettori_ambiente = generazione(dir_lanci, 0, True)
 
     if best_benessere == 0:
         benessere_zero = True
@@ -270,7 +269,7 @@ def main():
         effettori_agente, effettori_ambiente, sensori, sensori_ambiente = read_nodi_effettori("input_AG_AMB.txt")
 
         modifica_agente(funzioni_booleane_padre, effettori_agente, effettori_ambiente, True, sensori, sensori_ambiente, prob_mod_effettore, prob_mod_ambiente, nodi_essenziali)
-        best_benessere, best_funzioni_booleane, best_effettori_agente, best_effettori_ambiente = generazione(dir_lanci, i, False, omega)
+        best_benessere, best_funzioni_booleane, best_effettori_agente, best_effettori_ambiente = generazione(dir_lanci, i, False)
 
         nodi_essenziali = read_valore_ideale_nodi_essenziali("input_benessere.txt")
 

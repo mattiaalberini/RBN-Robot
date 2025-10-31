@@ -72,7 +72,6 @@ def main():
     parameters = read_file("benessere_interaction_launcher_input.txt")
     nome_lanci = parameters["nome lanci"]
     n_lanci = int(parameters["n_lanci"])
-    omega = int(parameters.get("omega", -1))
 
     # Creo la cartella che conterrà gli N lanci
     dir_lanci = crea_dir_lanci(nome_lanci)
@@ -89,13 +88,13 @@ def main():
         subprocess.run(["python", "agent_env_generator.py"])
 
         # Eseguo la simulazione
-        subprocess.run(["python", "benessere_interaction_simulator.py", "-o", str(omega)])
+        subprocess.run(["python", "benessere_interaction_simulator.py"])
 
         # Non ho trovato attrattori -> ripeto la simulazione
         while not attrattore_trovato(os.path.join("agent","output_motore_rapporto.txt")) or not attrattore_trovato(os.path.join("environment","output_motore_rapporto.txt")):
             print("Nessun attrattore trovato, rilancio!")
             subprocess.run(["python", "agent_env_generator.py"])
-            subprocess.run(["python", "benessere_interaction_simulator.py", "-o", str(omega)])
+            subprocess.run(["python", "benessere_interaction_simulator.py"])
 
         # Copio i file all'interno della cartella del relativo lancio
         shutil.copytree(os.path.join(os.getcwd(), "agent"), os.path.join(dir_lancio, "agent"), dirs_exist_ok=True)

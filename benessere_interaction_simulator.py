@@ -180,15 +180,13 @@ def read_last_state(file_name):
 def main():
     parser = argparse.ArgumentParser(description="Specifica se deve essere lanciato normalmente o se per l'evoluzione")
     parser.add_argument("-e", "--evolution", action="store_true", help="Eseguito per l'evoluzione (non modifica condizioni iniziali e profilo)")
-    parser.add_argument( "-o", "--omega", type=int, default=-1, help="Valore omega (opzionale, default = periodo attrattore)")
     args = parser.parse_args()
-
-    omega = args.omega
-    check_omega(omega)
 
     parameters = read_file("benessere_interaction_simulator_input.txt")
     n_iterazioni = int(parameters["n_iterazioni"])
     mode = parameters["mode"].lower()
+    omega = int(parameters.get("omega", -1))
+    check_omega(omega)
 
     check_parameters(n_iterazioni, mode)
 
