@@ -1,4 +1,4 @@
-nome evoluzione: caotico_0_5
+nome evoluzione: ordinato_0_1
 n massimo generazioni: 200
-probabilità_modifica_nodo_effettore: 0.5
-probabilità_modifica_nodo_ambiente: 0.5
+probabilità_modifica_nodo_effettore: 0
+probabilità_modifica_nodo_ambiente: 1

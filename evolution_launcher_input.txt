@@ -1,2 +1,2 @@
-nome lanci evoluzione: test
-n_lanci: 3
+nome lanci evoluzione: ordinato_0_1
+n_lanci: 10
