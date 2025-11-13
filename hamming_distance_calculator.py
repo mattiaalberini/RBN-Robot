@@ -4,6 +4,7 @@ import subprocess
 import pandas as pd
 
 from benessere_interaction_simulator import read_nodi_effettori
+from evolution import find_best_benessere
 from generator_RBN import print_grafo
 from utils import read_graph
 
@@ -41,7 +42,7 @@ def crea_excel_file(file_name, output_file):
 
 def main():
     nodi_effettori = read_nodi_effettori("input_AG_AMB.txt")
-    benessere, funzioni_booleane = find_benessere_zero("benessere_interaction_simulator_output.txt")
+    benessere, funzioni_booleane = find_best_benessere("benessere_interaction_simulator_output.txt")
 
     agent_n_genes, rbn_agent = read_graph(os.path.join("agent", "grafo_default.txt"))
 
